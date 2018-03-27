@@ -1,0 +1,28 @@
+.parent-container {
+    padding: 20px;
+}
+.hand {
+    cursor: pointer;
+}
+
+.title {
+    padding: 20px;
+}
+
+.content {
+    padding: 20px;
+}
+.add-instr {
+    min-width: 270px;
+    max-width: 300px;
+    width: 100%;
+    align-self: flex-start;
+}
+.display-instr {
+    width: 100%;
+}
+
+.tab {
+    /* height: 100%; */
+    width: 100%;
+}

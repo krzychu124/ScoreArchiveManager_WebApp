@@ -1,0 +1,15 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title class="title">{{title}}</mat-card-title>
+        <mat-card-subtitle>{{subtitle}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="metadata-content">
+       <span>Rodzaj utworu: {{scoreType}}</span><br>
+       <span>Rozmiar pliku: {{fileSize | number: '1.0-1'}}KB</span><br>
+       <span>Typ pliku: {{fileType}}</span><br>
+    </mat-card-content>
+    <mat-card-actions align="center">
+        <button mat-button (click)="preview()">Podgląd</button>
+        <button mat-button (click)="download($event)">Download</button>
+    </mat-card-actions>
+</mat-card>

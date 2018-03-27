@@ -1,0 +1,14 @@
+.size {
+    /* font-size: 22px; */
+    margin-top: 5px;
+    cursor: pointer;
+}
+.item-full-width {
+    width: 100%;
+}
+.fi{
+    display: none;
+}
+.button{
+    width: 100%;
+}

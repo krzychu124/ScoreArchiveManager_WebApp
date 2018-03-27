@@ -4,5 +4,19 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  server: 'http://localhost:8080/',
+
+  msczEndpoint: '/mscz',
+  pdfEndpoint: '/pdf',
+  imageEndpoint: '/image',
+  otherEndpoint: '/other',
+  filesEndpoint: '/files',
+  instrument_endpoint: '/instrument',
+  scoreBook_endpoint: '/scoreBook',
+  scoreBookTitle_endpoint: '/scoreBookTitle',
+  score: '/score',
+  scoreTitle: '/scoreTitle',
+  storage: '/storage',
+  fileMetadata: '/fileMetadata'
 };

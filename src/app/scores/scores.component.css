@@ -1,0 +1,22 @@
+.parent-container {
+    padding: 40px;
+}
+.hand {
+    cursor: pointer;
+}
+
+.content {
+    padding: 0px;
+}
+.add-score-title {
+    width: 100%;
+}
+.display-score-title {
+    width: 100%;
+}
+
+.tab {
+    width: 100%;
+    padding-top: 15px;
+    min-width: 500px;
+}

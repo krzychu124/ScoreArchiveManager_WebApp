@@ -1,0 +1,8 @@
+.instrument-form {
+  min-width: 200px;
+  width: 100%;
+  align-items: stretch;
+}
+.form-group {
+  display: block;
+}

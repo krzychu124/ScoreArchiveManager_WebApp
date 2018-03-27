@@ -1,0 +1,31 @@
+.parent-container {
+    padding: 20px;
+}
+.hand {
+    cursor: pointer;
+}
+
+.title {
+    padding: 20px;
+}
+
+.content {
+    padding: 20px;
+}
+.add-score-title {
+    min-width: 400px;
+    width: 100%;
+    align-self: stretch;
+}
+.display-score-title {
+    width: 100%;
+}
+
+.tab {
+    width: 100%;
+    padding-top: 20px;
+    min-width: 500px;
+}
+.score-form {
+    max-width: 400px;
+}

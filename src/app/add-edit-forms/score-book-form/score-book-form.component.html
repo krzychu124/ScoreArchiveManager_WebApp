@@ -1,0 +1,46 @@
+<form [formGroup]="scoreBookForm" class="score-form" #formDirective="ngForm" novalidate>
+  <code *ngIf="error">{{ error }}</code>
+  <br>
+  <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="15px">
+
+    <div fxLayout="row" fxLayoutAlign="space-around stretch" fxLayoutGap="15px" class="title">
+      <mat-form-field class="form-group">
+        <mat-select formControlName="scoreType" placeholder="Kategoria" required>
+          <mat-option *ngFor="let choice of scoreTypes" [value]="choice">
+            {{choice.name_pl}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="scoreType.invalid">Wybierz kategorie utworu</mat-error>
+      </mat-form-field>
+      <mat-form-field class="form-group">
+        <mat-select formControlName="scoreBookTitle" placeholder="Tytuł zeszytu" required>
+          <mat-option *ngFor="let choice of scoreBookTitles" [value]="choice">
+            {{choice.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="scoreBookTitle.invalid">Wybierz tytuł</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-group">
+        <mat-select formControlName="instrument" placeholder="Instrument" required>
+          <mat-option *ngFor="let choice of instruments" [value]="choice">
+            {{choice.name}} {{choice.voiceNumber}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="instrument.invalid">Wybierz instrument</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="start stretch" fxLayoutGap="15px">
+
+
+
+  </div>
+  <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="15px">
+    <!-- <app-file-add [PDF]="" [MSCZ]="" [Images]="" [showList]="showFiles"></app-file-add> -->
+  </div>
+  <div class="add-score-book">
+    <button mat-raised-button (click)="add(formDirective)" color="primary" fxFlexFill [disabled]="scoreBookForm.invalid">Dodaj</button>
+  </div>
+</form>

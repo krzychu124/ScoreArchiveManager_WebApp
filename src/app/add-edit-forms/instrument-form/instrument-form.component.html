@@ -1,0 +1,19 @@
+<form [formGroup]="instrumentForm" class="intrument-form" #formDirective="ngForm" novalidate>
+  <pre *ngIf="error">{{ error }}</pre><br>
+  <mat-form-field class="form-group" >
+    <input matInput placeholder="Nazwa" fullWidth formControlName="name" required>
+    <mat-error *ngIf="name.invalid">Podaj nazwę</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="form-group">
+    <input matInput placeholder="Strój" class="form-control" formControlName="pitch" required>
+    <mat-error *ngIf="pitch.invalid">Podaj strój</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="form-group">
+    <input matInput type="number" placeholder="Głos" class="form-control" formControlName="voiceNumber" required>
+    <mat-error *ngIf="voiceNumber.invalid">Podaj numer głosu</mat-error>
+  </mat-form-field>
+  <br>
+  <button mat-raised-button (click)="add(formDirective)" color="primary" fxFlexFill [disabled]="instrumentForm.invalid">Dodaj</button>
+</form>

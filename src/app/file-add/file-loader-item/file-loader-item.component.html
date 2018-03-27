@@ -1,0 +1,15 @@
+<div class="item-full-width" fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="5px">
+  <div fxFlex="100%" class="text" fxLayout="row" fxLayoutGap="20px">
+    <input matInput readonly placeholder="{{fileName}}">
+  </div>
+  <div fxFlex="100%" fxFlexAlign="center" *ngIf="loading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+  <div *ngIf="loading" fxFlexAlign="end">
+    <mat-icon class="size" color="warn" (click)="iconClick()">{{status}}</mat-icon>
+  </div>
+  <div *ngIf="loaded && !loading && fileName !== ''">
+    <mat-icon class="size" color="primary" (click)="iconClick()">delete</mat-icon>
+  </div>
+  <br>
+</div>

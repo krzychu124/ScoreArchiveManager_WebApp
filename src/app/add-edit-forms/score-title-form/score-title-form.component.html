@@ -1,0 +1,24 @@
+<form [formGroup]="scoreTitleForm" class="score-title-form" #formDirective="ngForm" novalidate>
+  <code *ngIf="error">{{ error }}</code>
+  <br>
+  <mat-form-field class="form-group">
+    <input matInput placeholder="Tytuł" fullWidth formControlName="title" required>
+    <mat-error *ngIf="title.invalid">Podaj tytuł</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="form-group">
+    <input matInput placeholder="Numer" type="number" class="form-control" formControlName="number" required>
+    <mat-error *ngIf="number.invalid">Podaj numer utworu</mat-error>
+  </mat-form-field>
+  <br>
+  <mat-form-field class="form-group">
+    <mat-select formControlName="scoreType" placeholder="Kategoria" required>
+      <mat-option *ngFor="let choice of scoreTypes" [value]="choice">
+        {{choice.name_pl}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="scoreType.invalid">Wybierz kategorię utworu</mat-error>
+  </mat-form-field>
+  <br>
+  <button mat-raised-button (click)="add(formDirective)" color="primary" fxFlexFill [disabled]="scoreTitleForm.invalid">Dodaj tytuł</button>
+</form>

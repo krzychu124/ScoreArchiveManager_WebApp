@@ -1,0 +1,28 @@
+<div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+  <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px">
+    <button mat-raised-button color="primary" (click)="addPdf()">PDF</button>
+    <button mat-raised-button color="primary" (click)="addMscz()">Mscz</button>
+    <button mat-raised-button color="primary" (click)="addImage()">Obraz</button>
+    <button mat-raised-button color="primary" (click)="addOther()">Inny</button>
+  </div>
+  <mat-accordion [multi]="true">
+    <mat-expansion-panel [expanded]="pdfProcessing" [hideToggle]="false">
+      <mat-expansion-panel-header>Pliki PDF: ({{ pdf.length }})</mat-expansion-panel-header>
+      <app-file-loader #pdfFiles [Title]="'PDF'" [fileType]="PDF" [instrument]="instrument" [scoreTitle]="scoreTitle" [scoreType]="scoreType" (processing)="processing($event)"></app-file-loader>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="msczProcessing" [hideToggle]="false">
+      <mat-expansion-panel-header>Pliki Mscz: ({{ mscz.length }})</mat-expansion-panel-header>
+      <app-file-loader #msczFiles [Title]="'MSCZ'" [fileType]="MSCZ" [instrument]="instrument" [scoreTitle]="scoreTitle" [scoreType]="scoreType" (processing)="processing($event)"></app-file-loader>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="imageProcessing" [hideToggle]="false">
+      <mat-expansion-panel-header>Obrazy i zdjęcia ({{ image.length }})</mat-expansion-panel-header>
+      <app-file-loader #imageFiles [Title]="'Obrazy'" [fileType]="IMAGE" [instrument]="instrument" [scoreTitle]="scoreTitle" [scoreType]="scoreType"
+        (processing)="processing($event)"></app-file-loader>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="otherProcessing" [hideToggle]="false">
+      <mat-expansion-panel-header>Inne ({{ other.length }})</mat-expansion-panel-header>
+      <app-file-loader #otherFiles [Title]="'Inne'" [fileType]="OTHER" [instrument]="instrument" [scoreTitle]="scoreTitle" [scoreType]="scoreType"
+        (processing)="processing($event)"></app-file-loader>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

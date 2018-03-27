@@ -1,0 +1,55 @@
+<div class="parent-container">
+    <div class="mat-elevation-z0">
+      <div class="title">
+        <mat-card>
+          <mat-card-title-group>
+            <mat-card-title>Dostępne tytuły zeszytów</mat-card-title>
+            <button *ngIf="canAddScoreBookTitle" mat-mini-fab (click)="visible = !visible" color="primary">
+                <mat-icon class="mat-36 hand">add</mat-icon>
+            </button>
+          </mat-card-title-group>
+          <mat-card-content>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="content" fxFlexFill>
+        <div fxLayout="col" class="add-title" *ngIf="visible">
+          <pre>{{error}}</pre>
+          <br>
+          <mat-card class="mat-elevation-z3">
+            <mat-card-title>
+              <small>Dodaj nowy tytuł zeszytu</small>
+            </mat-card-title>
+            <mat-card-content>
+              <app-score-book-title-form></app-score-book-title-form>
+            </mat-card-content>
+          </mat-card>
+        </div>
+  
+        <div fxLayout="col" fxFlex="100" class="display-titles">
+          <div class="mat-elevation-z3 tab">
+            <mat-table #table [dataSource]="dataSource" matSort>
+  
+              <!-- Id Column -->
+              <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Id. </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+              </ng-container>
+  
+              <!-- Name Column -->
+              <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Tytuł </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+            <mat-paginator #paginator [pageSize]="5" [pageSizeOptions]="[5, 10]" [showFirstLastButtons]="true">
+            </mat-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

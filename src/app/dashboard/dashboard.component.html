@@ -1,0 +1,49 @@
+<ng-container class="dashboard">
+  <mat-toolbar class="header mat-elevation-z2">{{title}}</mat-toolbar>
+  <mat-sidenav-container class="container">
+    <mat-sidenav #sidenav class="sidenav mat-elevation-z2" mode="side" opened="true" (mouseenter)="mouseOver(sidenav)" (mouseleave)="mouseOut(sidenav)">
+
+      <mat-nav-list>
+        <!-- <mat-list-item>
+          <button mat-icon-button (click)="isExpanded = !isExpanded">
+            <mat-icon *ngIf="!isExpanded">chevron_right</mat-icon>
+            <mat-icon *ngIf="isExpanded">chevron_left</mat-icon>
+          </button>
+        </mat-list-item> -->
+        <mat-list-item [routerLink]="['/']" class="sh">
+          <mat-icon mat-list-icon>home</mat-icon>
+          <p matLine *ngIf="isExpanded">Home</p>
+        </mat-list-item>
+        <mat-list-item [routerLink]="['./score-books']" class="sh">
+          <mat-icon mat-list-icon>book</mat-icon>
+          <p matLine *ngIf="isExpanded">Score Books</p>
+        </mat-list-item>
+        <mat-list-item [routerLink]="['./scores']" class="sh">
+          <mat-icon mat-list-icon>check_box_outline_blank</mat-icon>
+          <p matLine *ngIf="isExpanded">Scores</p>
+        </mat-list-item>
+        <mat-list-item [routerLink]="['./instruments']" class="sh">
+          <mat-icon mat-list-icon>volume_up</mat-icon>
+          <p matLine *ngIf="isExpanded">Instruments</p>
+        </mat-list-item>
+        <mat-list-item [routerLink]="['./score-titles']" class="sh">
+          <mat-icon mat-list-icon>title</mat-icon>
+          <p matLine *ngIf="isExpanded">Score Titles</p>
+        </mat-list-item>
+        <mat-list-item [routerLink]="['./score-book-titles']" class="sh">
+          <mat-icon mat-list-icon>title</mat-icon>
+          <p matLine *ngIf="isExpanded">Score Book Titles</p>
+        </mat-list-item>
+        <mat-list-item [routerLink]="['./storage']" class="sh">
+          <mat-icon mat-list-icon>storage</mat-icon>
+          <p matLine *ngIf="isExpanded">Storage</p>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content class="sidenav-content" [formGroup]="options">
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</ng-container>

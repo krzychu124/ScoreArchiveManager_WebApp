@@ -1,0 +1,13 @@
+.storage-space {
+    padding: 30px;
+}
+.file-card {
+    min-width: 200px;
+    width: 100%;
+}
+.title-storage {
+   font-size: 22px;
+}
+.file-list {
+    min-width: 220px;
+}

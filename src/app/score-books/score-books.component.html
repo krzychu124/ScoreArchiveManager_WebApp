@@ -1,0 +1,92 @@
+<div class="parent-container">
+  <div class="mat-elevation-z0" fxLayout="column" fxLayoutAlign="center stretch" fxLayoutGap="10px">
+    <div class="title">
+      <mat-card class="mat-elevation-z6">
+        <mat-card-title-group>
+          <mat-card-title>Scores Books</mat-card-title>
+          <button *ngIf="canAddScore" mat-mini-fab (click)="visible = !visible" color="primary">
+            <mat-icon class="mat-36 hand">add</mat-icon>
+          </button>
+        </mat-card-title-group>
+      </mat-card>
+    </div>
+    <div fxLayout="row" class="content" fxFlexFill>
+      <div class="add-score-title" *ngIf="visible">
+        <mat-card class="mat-elevation-z3">
+          <mat-card-title>
+            <small>Dodaj nowy zeszyt</small>
+          </mat-card-title>
+          <mat-card-content>
+            <app-score-book-form class="score-form"></app-score-book-form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <div fxLayout="row" fxFlex="100" class="content display-score-title">
+      <div class="mat-elevation-z3 tab">
+        <form [formGroup]="searchForm">
+          <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="30px">
+            <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+              <mat-form-field class="form-group">
+                <mat-select formControlName="scoreType" placeholder="Kategoria" (change)="fetchScoreBooks()" required>
+                  <mat-option *ngFor="let choice of scoreTypes" [value]="choice">
+                    {{choice.name_pl}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="scoreType.invalid">Wybierz kategorie utworu</mat-error>
+              </mat-form-field>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+
+              <mat-form-field class="form-group">
+                <mat-select formControlName="instrument" placeholder="Instrument" (change)="fetchScoreBooks()">
+                  <mat-option [value]="{ name: Wszystkie, id: 0}">Wszystkie</mat-option>
+                  <mat-option *ngFor="let choice of instruments" [value]="choice">
+                    {{choice.name}} {{choice.voiceNumber}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="instrument.invalid">Wybierz instrument</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+        <div *ngIf="error" style="color: red; text-align: center">
+          <br>
+          <code>{{error}}</code>
+          <br>
+        </div>
+        <mat-table #table [dataSource]="dataSource" matSort>
+
+          <!-- Id Column -->
+          <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Id. </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="scoreBookTitle">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Tytuł </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.scoreBookTitle.name}} </mat-cell>
+          </ng-container>
+
+          <!-- Pitch Column -->
+          <ng-container matColumnDef="scoreType">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Kategoria </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.scoreType.name_pl}} </mat-cell>
+          </ng-container>
+
+          <!-- Voice Column -->
+          <ng-container matColumnDef="instrument">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Instrument </mat-header-cell>
+            <mat-cell *matCellDef="let element" i18n> {{element.instrument.name}} {{element.instrument.voiceNumber}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator #paginator [pageSize]="5" [pageSizeOptions]="[5, 10]" [showFirstLastButtons]="true">
+        </mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

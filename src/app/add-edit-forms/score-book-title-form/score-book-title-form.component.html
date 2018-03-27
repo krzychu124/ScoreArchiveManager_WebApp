@@ -1,0 +1,9 @@
+<form [formGroup]="scoreBookTitleForm" class="score-book-title-form" #formDirective="ngForm" novalidate>
+    <pre *ngIf="error">{{ error }}</pre><br>
+    <mat-form-field class="form-group" >
+      <input matInput placeholder="Tytuł" fullWidth formControlName="name" required>
+      <mat-error *ngIf="name.invalid">Podaj tytuł</mat-error>
+    </mat-form-field>
+    <br>
+    <button mat-raised-button (click)="add(formDirective)" color="primary" fxFlexFill [disabled]="scoreBookTitleForm.invalid">Dodaj tytuł</button>
+  </form>

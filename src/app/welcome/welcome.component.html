@@ -1,0 +1,17 @@
+<div class="welcome" >
+  <div class="navigation" fxLayoutAlign="center center">
+    <div fxFlexAlign="center">
+      <div flexLayout="row">
+      <button mat-raised-button class="w-butn" [routerLink]="['/login']">Login</button>
+      <button mat-raised-button class="w-butn" [routerLink]="['/register']">Register</button>
+    </div>
+      <div flexLayout="row">
+      <button mat-raised-button class="w-butn" [routerLink]="['/band']">Band</button>
+      <button mat-raised-button class="w-butn" [routerLink]="['/orchestra']">Orkiestra</button>
+    </div>
+    <div flexLayout="row">
+        <button mat-raised-button class="w-butn w-butn-small" color="primary" [routerLink]="['/dashboard']">Dashboard</button>
+        <button mat-raised-button class="w-butn w-butn-small" color="primary" [routerLink]="['/admindashboard']">Admin Dashboard</button>
+      </div>
+  </div>
+</div>

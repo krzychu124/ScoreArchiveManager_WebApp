@@ -1,0 +1,10 @@
+.full-width {
+    width: 100%;
+}
+.icon-add {
+    cursor: pointer;
+    right: 0px;
+}
+h2 {
+    font-size: 16px!important;
+}

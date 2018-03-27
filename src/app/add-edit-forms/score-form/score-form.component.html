@@ -1,0 +1,77 @@
+<form [formGroup]="scoreForm" class="score-form" #formDirective="ngForm" novalidate>
+  <code *ngIf="error">{{ error }}</code>
+  <br>
+  <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="15px">
+    <mat-vertical-stepper [linear]="true" #stepper>
+      <mat-step [stepControl]="titleGroup">
+        <ng-template matStepLabel>
+          <span *ngIf="(scoreTitle || scoreTitle.value) && !scoreTitle.value.title">Wybierz tytuł z listy dostępnych</span>
+          <span *ngIf="scoreTitle.value && scoreTitle.value.title">Tytuł: {{ scoreTitle.value.title }}</span>
+        </ng-template>
+        <form [formGroup]="titleGroup">
+          <mat-form-field class="form-group">
+            <mat-select formControlName="scoreTitle" placeholder="Tytuł" required>
+              <mat-option *ngFor="let choice of scoreTitles" [value]="choice">
+                {{choice.title}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="scoreTitle.invalid">Wybierz tytuł</mat-error>
+          </mat-form-field>
+          <div>
+            <button mat-raised-button matStepperNext type="button">Dalej</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="typeGroup">
+        <ng-template matStepLabel>
+          <span *ngIf="(scoreType || scoreType.value) && !scoreType.value.name_pl">Wybierz kategorię utworu z listy dostępnych</span>
+          <span *ngIf="scoreType.value && scoreType.value.name_pl">Kategoria utworu: {{ scoreType.value.name_pl }}</span>
+        </ng-template>
+        <form [formGroup]="typeGroup">
+          <mat-form-field class="form-group">
+            <mat-select formControlName="scoreType" placeholder="Kategoria utworu" required>
+              <mat-option *ngFor="let choice of scoreTypes" [value]="choice">
+                {{choice.name_pl}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="scoreType.invalid">Wybierz kategorie utworu</mat-error>
+          </mat-form-field>
+          <div>
+            <button mat-raised-button matStepperNext>Dalej</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="instrumentGroup">
+        <ng-template matStepLabel>
+          <span *ngIf="(instrument || instrument.value) && !instrument.value.name">Wybierz instrument z listy dostępnych</span>
+          <span *ngIf="instrument.value && instrument.value.name">Instrument: {{ instrument.value.name }} {{ instrument.value.voiceNumber }}</span>
+        </ng-template>
+        <form [formGroup]="instrumentGroup">
+          <mat-form-field class="form-group">
+            <mat-select formControlName="instrument" placeholder="Instrument" required>
+              <mat-option *ngFor="let choice of instruments" [value]="choice">
+                {{choice.name}} {{choice.voiceNumber}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="instrument.invalid">Wybierz instrument</mat-error>
+          </mat-form-field>
+          <div>
+            <button mat-raised-button matStepperNext>Dalej</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Dodaj PDF, zdjęcie, plik mscz, lub inne materiały</ng-template>
+        <div fxLayout="column" fxLayoutAlign="center stretch" fxLayoutGap="10px">
+          <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="15px">
+            <app-file-add #fileAdd [instrument]="instrument.value" [scoreType]="scoreType.value" [scoreTitle]="scoreTitle.value" [showList]="showFiles"></app-file-add>
+          </div>
+          <div fxLayoutAlign="end center" fxLayoutGap="10px">
+            <button mat-raised-button (click)="add(formDirective)" color="primary" [disabled]="scoreForm.invalid" fxFlex="40">Dodaj</button>
+            <button mat-raised-button color="accent" (click)="stepper.reset(); fileAdd.reset(); clear(formDirective);" fxFlex="40">Wyczyść</button>
+          </div>
+        </div>
+      </mat-step>
+    </mat-vertical-stepper>
+  </div>
+</form>
