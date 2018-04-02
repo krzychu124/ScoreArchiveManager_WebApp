@@ -11,8 +11,9 @@ import { ScoreBookTitle } from '@app/shared/scoreBookTitle';
 })
 export class ScoreBookTitleFormComponent implements OnInit {
   name: FormControl;
-  error = null;
   scoreBookTitleForm: FormGroup;
+  error = null;
+  
   constructor(private http: HttpClient) { }
 
   ngOnInit() {

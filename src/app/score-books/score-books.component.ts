@@ -17,20 +17,20 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./score-books.component.css']
 })
 export class ScoreBooksComponent implements OnInit, OnDestroy {
-  private ngUnsubscribe = new Subject();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-
-  displayedColumns = ['id', 'scoreType', 'scoreBookTitle', 'instrument'];
+  private ngUnsubscribe = new Subject();
+  protected displayedColumns = ['id', 'scoreBookTitle', 'instrument', 'scoreType'];
   dataSource = new MatTableDataSource<ScoreBook>();
-  canAddScore: boolean = true;
-  visible = true;
-  error = null;
-  scoreTypes: Array<ScoreType> = [];
-  scoreType: FormControl;
   instruments: Array<Instrument> = [];
-  instrument: FormControl;
+  scoreTypes: Array<ScoreType> = [];
   searchForm: FormGroup;
+  instrument: FormControl;
+  scoreType: FormControl;
+  canAddScore: boolean = true;
+  visible: boolean = true;
+  error: any;
+
   constructor(private http: HttpClient, private dataService: DataService) { }
 
   ngOnInit() {
@@ -40,8 +40,6 @@ export class ScoreBooksComponent implements OnInit, OnDestroy {
 
   fetchScoreBooks(): void {
     const scoreTypeId = this.scoreType ? this.scoreType.value.id != undefined ? this.scoreType.value.id : '1' : '1';
-    // const instrumentId = this.instrument ? this.instrument.value.id != 0 ? this.instrument.value.id : undefined : undefined;
-    // const parameters = instrumentId ? {'scoreTypeId': scoreTypeId, 'instrumentId': instrumentId} : { 'scoreTypeId': scoreTypeId};
     this.http.get(environment.server + environment.scoreBook_endpoint + '/scoreType/' + scoreTypeId).subscribe(resp => {
       this.error = null;
       this.dataSource.data = resp as Array<ScoreBook>;

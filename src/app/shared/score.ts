@@ -5,6 +5,7 @@ import { User } from "./user";
 import { PDFFile } from "./PDFFile";
 import { MuseScoreFile } from "./MuseScoreFile";
 import { ImageFile } from "./ImageFile";
+import { GenericFile } from "@app/shared/GenericFile";
 
 export class Score {
     private id: number;
@@ -14,17 +15,17 @@ export class Score {
     private cretedBy: User;
     private lastModifiedBy: User;
     private lastModifiedTime: number;
-    pdfFiles: Array<PDFFile> = [];
-    museScoreFiles: Array<MuseScoreFile> = [];
-    images: Array<ImageFile> = [];
-
-    constructor(scoreTitle: ScoreTitle, scoreType: ScoreType, instrument: Instrument){
+    pdfFiles: Array<GenericFile> = [];
+    museScoreFiles: Array<GenericFile> = [];
+    imageFiles: Array<GenericFile> = [];
+    othersFiles: Array<GenericFile> = [];
+    constructor(scoreTitle: ScoreTitle, scoreType: ScoreType, instrument: Instrument) {
         this.scoreTitle = scoreTitle;
         this.scoreType = scoreType;
         this.instrument = instrument;
     }
 
-    getId():number {
+    getId(): number {
         return this.id;
     }
     getCreatedBy(): User {

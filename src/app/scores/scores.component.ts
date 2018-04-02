@@ -18,20 +18,20 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./scores.component.css']
 })
 export class ScoresComponent implements OnInit, OnDestroy {
-  private ngUnsubscribe = new Subject();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-
-  displayedColumns = ['id', 'scoreTitle', 'scoreType', 'instrument'];
-  dataSource = new MatTableDataSource<ScoreRow>();
-  canAddScore: boolean = true;
-  visible = true;
-  error = null;
-  scoreTypes: Array<ScoreType> = [];
-  scoreType: FormControl;
+  private ngUnsubscribe = new Subject();
+  protected displayedColumns = ['id', 'scoreTitle', 'scoreType', 'instrument', 'pdfFiles', 'msczFiles', 'imageFiles', 'otherFiles'];
+  protected dataSource = new MatTableDataSource<ScoreRow>();
   instruments: Array<Instrument> = [];
-  instrument: FormControl;
+  scoreTypes: Array<ScoreType> = [];
   searchForm: FormGroup;
+  instrument: FormControl;
+  scoreType: FormControl;
+  canAddScore: boolean = true;
+  visible: boolean = true;
+  error: any;
+
   constructor(private http: HttpClient, private dataService: DataService) { }
 
   ngOnInit() {
@@ -67,6 +67,7 @@ export class ScoresComponent implements OnInit, OnDestroy {
     this.dataService.instruments.pipe(takeUntil(this.ngUnsubscribe)).subscribe(values => this.instruments = values);
 
     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
     this.scoreType = new FormControl('', Validators.required);
     this.instrument = new FormControl('');
     this.searchForm = new FormGroup({

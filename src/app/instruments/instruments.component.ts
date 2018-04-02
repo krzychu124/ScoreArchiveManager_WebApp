@@ -13,15 +13,15 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./instruments.component.css']
 })
 export class InstrumentsComponent implements OnInit, OnDestroy, AfterViewInit {
-  private ngUnsubscribe = new Subject();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  displayedColumns = ['id', 'name', 'instrumentPitch', 'voiceNumber'];
+  private ngUnsubscribe = new Subject();
+  displayedColumns = ['id', 'name', 'voiceNumber', 'instrumentPitch'];
   dataSource = new MatTableDataSource<Instrument>();
-  visible: boolean = false;
   instruments: Array<Instrument> = [];
-  error;
-  canAddIntrument = true;
+  visible: boolean = false;
+  canAddIntrument: boolean = true;
+  error: any;
   constructor(private http: HttpClient, private dataService: DataService) { }
 
   ngOnInit() {

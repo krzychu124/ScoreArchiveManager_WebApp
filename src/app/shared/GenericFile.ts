@@ -14,4 +14,7 @@ export class GenericFile {
     fileSize: number;
     fileExtension: string;
     scoreFileType: ScoreFileType;
+    deleted: boolean;
+    created: Date;
+    thumbnail: string;
 }

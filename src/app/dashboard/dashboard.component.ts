@@ -14,7 +14,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 export class DashboardComponent {
   //Work in progress
-  title = 'Score Archive Manager';
+  title = 'Archiwum utworów';
   description = 'Playground';
   events = [];
   options: FormGroup;
