@@ -1,15 +1,23 @@
 <mat-card>
-    <mat-card-header>
-        <mat-card-title class="title">{{title}}</mat-card-title>
-        <mat-card-subtitle>{{subtitle}}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content class="metadata-content">
-       <span>Rodzaj utworu: {{scoreType}}</span><br>
-       <span>Rozmiar pliku: {{fileSize | number: '1.0-1'}}KB</span><br>
-       <span>Typ pliku: {{fileType}}</span><br>
-    </mat-card-content>
-    <mat-card-actions align="center">
-        <button mat-button (click)="preview()">Podgląd</button>
-        <button mat-button (click)="download($event)">Download</button>
-    </mat-card-actions>
+  <mat-card-header>
+    <mat-card-title class="title">{{title}}</mat-card-title>
+    <mat-card-subtitle>{{subtitle}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content class="metadata-content">
+    <img *ngIf="data.thumbnail" [src]="imageData" />
+    <img *ngIf="!data.thumbnail" src="./assets/img/noPreview.png" />
+    <br>
+    <span>Id utworu: {{attached}}</span>
+    <br>
+    <span>Rozmiar pliku: {{fileSize | number: '1.0-1'}}KB</span>
+    <br>
+    <span *ngIf="data.created">Utworzono:
+      <strong>{{data.created | date:'HH:mm:ss'}}</strong> {{data.created | date:'dd-MM-yyyy'}}r. </span>
+  </mat-card-content>
+  <mat-card-actions align="center">
+    <button mat-raised-button color="primary" (click)="download($event)">Pobierz</button>
+    <button mat-raised-button color="warn" (click)="remove($event)">Usuń</button>
+    <button mat-raised-button color="accent" (click)="openDialog()">Podgląd</button>
+    <button *ngIf="data.fileExtension == 'pdf' && !data.thumbnail" mat-raised-button (click)="generateThumb()">Wygeneruj podgląd</button>
+  </mat-card-actions>
 </mat-card>

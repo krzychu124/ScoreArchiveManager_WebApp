@@ -9,14 +9,13 @@ import { ScoreTitle } from '@app/shared/scoreTitle';
 
 @Injectable()
 export class DataService {
-
     private scoreBookTitlesSource = new BehaviorSubject<Array<ScoreBookTitle>>(new Array<ScoreBookTitle>());
-    public scoreBookTitles: Observable<Array<ScoreBookTitle>> = this.scoreBookTitlesSource.asObservable();
     private scoreTitlesSource = new BehaviorSubject<Array<ScoreTitle>>(new Array<ScoreTitle>());
-    public scoreTitles: Observable<Array<ScoreTitle>> = this.scoreTitlesSource.asObservable();
     private scoreTypesSource = new BehaviorSubject<Array<ScoreType>>(new Array<ScoreType>());
-    public scoreTypes: Observable<Array<ScoreType>> = this.scoreTypesSource.asObservable();
     private instrumentsSource = new BehaviorSubject<Array<Instrument>>(new Array<Instrument>());
+    public scoreBookTitles: Observable<Array<ScoreBookTitle>> = this.scoreBookTitlesSource.asObservable();
+    public scoreTitles: Observable<Array<ScoreTitle>> = this.scoreTitlesSource.asObservable();
+    public scoreTypes: Observable<Array<ScoreType>> = this.scoreTypesSource.asObservable();
     public instruments: Observable<Array<Instrument>> = this.instrumentsSource.asObservable();
 
     constructor() {

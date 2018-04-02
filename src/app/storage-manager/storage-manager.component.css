@@ -11,3 +11,6 @@
 .file-list {
     min-width: 220px;
 }
+.item {
+    margin-bottom: 10px;
+}

@@ -1,123 +1,65 @@
 <div class="storage-space">
   <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="30px" fxFill>
-    <div fxLayout="row" fxLayoutAlign="start stretch" fxLayoutGap="30px">
+    <div fxLayout="row" fxLayoutAlign="space-around stretch" fxLayoutGap="30px">
       <mat-card class="file-card">
         <mat-card-header>
           <mat-card-title class="title-storage">PDF:</mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <hr>
-          <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" fxLayoutWrap>
-            <div *ngFor="let data of metaDataPDFList">
-              <app-display-file [data]="data"></app-display-file>
+          <div fxLayout="row wrap" fxLayoutAlign="space-around start">
+            <div class="item" *ngFor="let data of metaDataPDFList; let i =index">
+              <app-display-file  [data]="data" (removed)="remove(i)"></app-display-file>
             </div>
           </div>
         </mat-card-content>
       </mat-card>
     </div>
 
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px">
+    <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="30px">
       <mat-card class="file-card">
         <mat-card-header>
           <mat-card-title class="title-storage">MuseScore:</mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <hr>
-          <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" fxLayoutWrap>
-            <div *ngFor="let data of metaDataMSCZList">
+          <div fxLayout="row wrap" fxLayoutAlign="space-around start">
+            <div class="item" *ngFor="let data of metaDataMSCZList">
               <app-display-file [data]="data"></app-display-file>
             </div>
           </div>
         </mat-card-content>
       </mat-card>
     </div>
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px">
+    <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="30px">
       <mat-card class="file-card">
         <mat-card-header>
           <mat-card-title class="title-storage">Obrazy:</mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <hr>
-          <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" fxLayoutWrap>
-            <div *ngFor="let data of metaDataImageList">
+          <div fxLayout="row wrap" fxLayoutAlign="space-around start">
+            <div class="item" *ngFor="let data of metaDataImageList">
               <app-display-file [data]="data"></app-display-file>
             </div>
           </div>
         </mat-card-content>
       </mat-card>
     </div>
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px">
+    <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="30px">
       <mat-card class="file-card">
         <mat-card-header>
           <mat-card-title class="title-storage">Inne:</mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <hr>
-          <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" fxLayoutWrap>
-            <div *ngFor="let data of metaDataOtherList">
+          <div fxLayout="row wrap" fxLayoutAlign="space-around start">
+            <div class="item" *ngFor="let data of metaDataOtherList">
               <app-display-file [data]="data"></app-display-file>
             </div>
           </div>
         </mat-card-content>
       </mat-card>
     </div>
-
-    <!-- <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="30ppx">
-      <div fxFlex="100%">
-        <mat-card class="file-list">
-          <mat-card-header>
-            <mat-card-title>Pdf's: {{pdfs.length}}</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <mat-list>
-              <mat-list-item *ngFor="let item of pdfs">
-                <app-storage-file [info]="item"></app-storage-file>
-              </mat-list-item>
-            </mat-list>
-          </mat-card-content>
-        </mat-card>
-      </div>
-      <div fxFlex="50%">
-        <mat-card class="file-list">
-          <mat-card-header>
-            <mat-card-title>Mscz's: {{msczs.length}}</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <mat-list dense>
-              <mat-list-item *ngFor="let item of msczs">
-                <app-storage-file [info]="item"></app-storage-file>
-              </mat-list-item>
-            </mat-list>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </div>
-    <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="30ppx">
-
-      <mat-card class="file-list">
-        <mat-card-header>
-          <mat-card-title>Image's: {{images.length}}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-list dense>
-            <mat-list-item *ngFor="let item of images">
-              <app-storage-file [info]="item"></app-storage-file>
-            </mat-list-item>
-          </mat-list>
-        </mat-card-content>
-      </mat-card>
-      <mat-card class="file-list">
-        <mat-card-header>
-          <mat-card-title>Other's: {{others.length}}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-list dense>
-            <mat-list-item *ngFor="let item of others">
-              <app-storage-file [info]="item"></app-storage-file>
-            </mat-list-item>
-          </mat-list>
-        </mat-card-content>
-      </mat-card>
-    </div> -->
   </div>
 </div>

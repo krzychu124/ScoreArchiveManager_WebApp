@@ -12,17 +12,56 @@ import { ScoreTitle } from '@app/shared/scoreTitle';
 
 @Injectable()
 export class DbDictionariesService {
-    stopTitlesInterval: boolean;
-    stopBookTitlesInterval: boolean;
-    stopScoreTypesInterval: boolean;
-    stopInstumentInterval: boolean;
-    scoreTypesEndpoint = environment.server + environment.score + '/types';
-    scoreTitlesEndpoint = environment.server + environment.scoreTitle;
-    instrumentsEndpoint = environment.server + environment.instrument_endpoint;
-    scoreBookTitlesEndpoint = environment.server + environment.scoreBookTitle_endpoint;
+    private stopTitlesInterval: boolean;
+    private stopBookTitlesInterval: boolean;
+    private stopScoreTypesInterval: boolean;
+    private stopInstumentInterval: boolean;
+    private scoreTypesEndpoint = environment.server + environment.score + '/types';
+    private scoreTitlesEndpoint = environment.server + environment.scoreTitle;
+    private instrumentsEndpoint = environment.server + environment.instrument_endpoint;
+    private scoreBookTitlesEndpoint = environment.server + environment.scoreBookTitle_endpoint;
 
     constructor(private http: HttpClient, private dataService: DataService) {
         this.fetchData();
+    }
+
+    public updateInstruments() {
+        this.fetchInstrments();
+        Observable.interval(5000).takeWhile(() => !this.stopInstumentInterval).subscribe(() => {
+            this.fetchInstrments();
+            console.log('Repeating failed instruments fetch: ' + new Date(Date.now()).toLocaleString());
+        });
+    }
+
+    public updateScoreTypes() {
+        this.fetchScoreTypes();
+        Observable.interval(5000).takeWhile(() => !this.stopScoreTypesInterval).subscribe(() => {
+            this.fetchScoreTypes();
+            console.log('Repeating failed scoreTypes fetch: ' + new Date(Date.now()).toLocaleString());
+        });
+    }
+
+    public updateScoreTitles() {
+        this.fetchScoreTitles();
+        Observable.interval(5000).takeWhile(() => !this.stopTitlesInterval).subscribe(() => {
+            this.fetchScoreTitles();
+            console.log('Repeating failed score titles fetch: ' + new Date(Date.now()).toLocaleString());
+        });
+    }
+
+    public updateScoreBookTitles() {
+        this.fetchScoreBookTitles();
+        Observable.interval(5000).takeWhile(() => !this.stopBookTitlesInterval).subscribe(() => {
+            this.fetchScoreBookTitles();
+            console.log('Repeating failed score book titles fetch: ' + new Date(Date.now()).toLocaleString());
+        });
+    }
+
+    private fetchData() {
+        this.updateInstruments();
+        this.updateScoreTitles();
+        this.updateScoreBookTitles();
+        this.updateScoreTypes();
     }
 
     private fetchScoreTypes() {
@@ -67,43 +106,5 @@ export class DbDictionariesService {
         }, err => {
             console.log('Instruments fetch failed ' + err.message);
         })
-    }
-    private fetchData() {
-        this.updateInstruments();
-        this.updateScoreTitles();
-        this.updateScoreBookTitles();
-        this.updateScoreTypes();
-    }
-
-    public updateInstruments() {
-        this.fetchInstrments();
-        Observable.interval(3000).takeWhile(() => !this.stopInstumentInterval).subscribe(() =>{
-            this.fetchInstrments();
-            console.log('Repeating failed instruments fetch: ' + new Date(Date.now()).toLocaleString());
-        });
-    }
-
-    public updateScoreTypes() {
-        this.fetchScoreTypes();
-        Observable.interval(3000).takeWhile(() => !this.stopScoreTypesInterval).subscribe(() => {
-            this.fetchScoreTypes(); 
-            console.log('Repeating failed scoreTypes fetch: ' + new Date(Date.now()).toLocaleString());
-        });
-    }
-
-    public updateScoreTitles() {
-        this.fetchScoreTitles();
-        Observable.interval(3000).takeWhile(() => !this.stopTitlesInterval).subscribe(() =>{
-            this.fetchScoreTitles();
-            console.log('Repeating failed score titles fetch: ' + new Date(Date.now()).toLocaleString());
-        });
-    }
-
-    public updateScoreBookTitles() {
-        this.fetchScoreBookTitles();
-        Observable.interval(3000).takeWhile(() => !this.stopBookTitlesInterval).subscribe(() =>{
-            this.fetchScoreBookTitles();
-            console.log('Repeating failed score book titles fetch: ' + new Date(Date.now()).toLocaleString());
-        });
     }
 }

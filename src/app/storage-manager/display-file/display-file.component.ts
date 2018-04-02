@@ -1,8 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FileWithMetadata } from '@app/shared/fileWithMetadata';
 import { GenericFile } from '@app/shared/GenericFile';
 import { RestService } from '@app/shared/service/rest.service';
 import { saveAs as importedSaveAs } from "file-saver";
+import { MatDialog } from '@angular/material';
+import { PdfPreviewComponent } from '@app/storage-manager/pdf-preview/pdf-preview.component';
+import { ScrollStrategyOptions, RepositionScrollStrategy } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-display-file',
@@ -11,12 +14,16 @@ import { saveAs as importedSaveAs } from "file-saver";
 })
 export class DisplayFileComponent implements OnInit {
   @Input() data: GenericFile;
-  title: string;
-  subtitle: string;
-  scoreType: string;
-  fileType: string;
-  fileSize: number;
-  constructor(private rest: RestService) { }
+  @Output() removed: EventEmitter<boolean> = new EventEmitter();
+  protected title: string;
+  protected subtitle: string;
+  protected scoreType: string;
+  protected fileType: string;
+  protected fileSize: number;
+  protected deleted: boolean;
+  protected attached: number;
+  protected imageData: string;
+  constructor(private rest: RestService, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.title = this.data.scoreTitle.title;
@@ -24,6 +31,9 @@ export class DisplayFileComponent implements OnInit {
     this.scoreType = this.data.scoreType.name_pl;
     this.fileSize = this.data.fileSize / 1000;
     this.fileType = this.data.fileExtension;
+    this.deleted = this.data.deleted;
+    this.attached = this.data.scoreId;
+    this.imageData = 'data:image/png;base64,' + this.data.thumbnail;
   }
 
   preview() {
@@ -31,12 +41,26 @@ export class DisplayFileComponent implements OnInit {
   }
   download($event) {
     this.rest.downloadFile(this.data.fileName).subscribe(resp => {
-      // console.log(resp);
+      console.log(resp);
       var contentDispositionHeader = resp.headers.get('Content-Disposition');
       var result = contentDispositionHeader.split(';')[1].trim().split(':')[1].trim();
-      const fileName =  result.replace(/"/g, '');
+      const fileName = result.replace(/"/g, '');
       importedSaveAs(resp.body, fileName);
-    }, err => console.error(err));
+    }, err => {
+      console.error(err);
+      alert(JSON.stringify(err));
+    });
     $event.preventDefault();
+  }
+  openDialog() {
+    const dialogRef = this.dialog.open(PdfPreviewComponent, { data: this.data.fileName});
+  }
+  remove() {
+    this.removed.emit(true);
+  }
+  generateThumb() {
+    this.rest.generateThumb(this.data.fileName).subscribe(resp => {
+      console.log('ok');
+    }, err => console.error(err));
   }
 }
