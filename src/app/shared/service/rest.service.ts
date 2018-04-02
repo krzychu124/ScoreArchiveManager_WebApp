@@ -8,57 +8,72 @@ import { MuseScoreFile } from '@app/shared/MuseScoreFile';
 import { FileWithMetadata } from '@app/shared/fileWithMetadata';
 import { ScoreFileType } from '@app/shared/scoreFileType.enum';
 import { GenericFile } from '@app/shared/GenericFile';
+import { Instrument } from '@app/shared/instrument';
+import { FileMetadataEndpointService } from '@app/shared/service/fileService/file-metadata-endpoint.service';
 
 @Injectable()
 export class RestService {
     private env = environment;
-    constructor(private http: HttpClient) { }
 
-    downloadFile(fileName: string): Observable<HttpResponse<Blob>> {
+    constructor(private http: HttpClient, private fileMetadataRest: FileMetadataEndpointService) { }
+
+    public downloadFile(fileName: string): Observable<HttpResponse<Blob>> {
         const e = this.env;
         const param = new HttpParams().append('fileName', fileName);
-        return this.http.get(e.server + e.filesEndpoint,{observe: 'response', responseType:'blob', params: param});
+        return this.http.get(e.server + e.filesEndpoint, { observe: 'response', responseType: 'blob', params: param });
     }
-    uploadFile(file: File, info: FileInfo): Observable<PDFFile> {
+
+    public uploadFile(file: File, info: FileInfo): Observable<PDFFile> {
         const e = this.env;
         let formData = new FormData();
         formData.append('file', file);
         formData.append('fileInfo', new Blob([JSON.stringify(info)], { type: 'application/json' }));
         return this.http.post<PDFFile>(e.server + e.pdfEndpoint, formData);
     }
-    uploadFile2(file: File, info: FileInfo): Observable<Object> {
+
+    public uploadFile2(file: File, info: FileInfo): Observable<GenericFile> {
         const e = this.env;
         let formData = new FormData();
         formData.append('file', file);
         formData.append('fileInfo', new Blob([JSON.stringify(info)], { type: 'application/json' }));
-        return this.http.post(e.server + e.filesEndpoint, formData);
+        return this.http.post<GenericFile>(e.server + e.filesEndpoint, formData);
     }
-    removeFile(fileName: string): Observable<Object> {
+
+    public removeFile(fileName: string): Observable<Object> {
         const e = this.env;
-        return this.http.delete<Object>(e.server + e.filesEndpoint +'/fileName/'+ fileName);
+        return this.http.delete<Object>(e.server + e.filesEndpoint + '/fileName/' + fileName);
     }
-    uploadPDF(file: File, info: FileInfo): Observable<PDFFile> {
+
+    public deletePermanently(fileId: number) {
+        const e = this.env;
+        return this.http.delete<Object>(e.server + e.filesEndpoint + '/' + fileId);
+    }
+
+    public uploadPDF(file: File, info: FileInfo): Observable<PDFFile> {
         const e = this.env;
         let formData = new FormData();
         formData.append('file', file);
         formData.append('fileInfo', new Blob([JSON.stringify(info)], { type: 'application/json' }));
         return this.http.post<PDFFile>(e.server + e.pdfEndpoint, formData);
     }
-    uploadMSCZ(file: File, info: FileInfo): Observable<MuseScoreFile> {
+
+    public uploadMSCZ(file: File, info: FileInfo): Observable<MuseScoreFile> {
         const e = this.env;
         let formData = new FormData();
         formData.append('file', file);
         formData.append('fileInfo', new Blob([JSON.stringify(info)], { type: 'application/json' }));
         return this.http.post<MuseScoreFile>(e.server + e.msczEndpoint, formData);
     }
-    uploadImage(file: File, info: FileInfo): Observable<MuseScoreFile> {
+
+    public uploadImage(file: File, info: FileInfo): Observable<MuseScoreFile> {
         const e = this.env;
         let formData = new FormData();
         formData.append('file', file);
         formData.append('fileInfo', new Blob([JSON.stringify(info)], { type: 'application/json' }));
         return this.http.post<MuseScoreFile>(e.server + e.imageEndpoint, formData);
     }
-    uploadOther(file: File, info: FileInfo): Observable<MuseScoreFile> {
+
+    public uploadOther(file: File, info: FileInfo): Observable<MuseScoreFile> {
         const e = this.env;
         let formData = new FormData();
         formData.append('file', file);
@@ -66,9 +81,24 @@ export class RestService {
         return this.http.post<MuseScoreFile>(e.server + e.otherEndpoint, formData);
     }
 
+    public generateThumb(fileName: string): Observable<Object> {
+        const e = this.env;
+        return this.http.put(e.server + e.filesEndpoint + '/' + fileName + '/thumb', null);
+    }
+
     public getFileMetadataByType(fileType: ScoreFileType): Observable<Array<GenericFile>> {
         const e = this.env;
-        const param = new HttpParams().set('fileType',ScoreFileType[fileType]);
-        return this.http.get<Array<GenericFile>>(e.server + e.fileMetadata, {params: param});
+        const param = new HttpParams().set('fileType', ScoreFileType[fileType]);
+        return this.http.get<Array<GenericFile>>(e.server + e.fileMetadata, { params: param });
+    }
+    
+    public getFileMetadataByInstrument(instrument: Instrument): Observable<GenericFile[]> {
+        return this.fileMetadataRest.getByInstrument(instrument);
+    }
+
+    public getPDFBase64(fileName: string): Observable<FileWithMetadata> {
+        const e = this.env;
+        const param = new HttpParams().set('fileName', fileName);
+        return this.http.get<FileWithMetadata>(e.server + e.filesEndpoint + '/base64', { params: param });
     }
 }
