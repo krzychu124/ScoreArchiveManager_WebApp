@@ -2,16 +2,22 @@
   "name": "score-file-manager",
   "version": "0.0.0",
   "license": "MIT",
+  "engines": {
+    "node": "6.11.4"
+  },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "http-server dist/",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "preinstall": "npm install -g http-server",
+    "postinstall": "ng build"
   },
   "private": true,
   "dependencies": {
+    "@angular/compiler-cli": "^5.2.8",
     "@angular-devkit/core": "0.0.29",
     "@angular/animations": "^5.2.8",
     "@angular/cdk": "^5.2.4",
@@ -35,7 +41,6 @@
     "zone.js": "^0.8.20"
   },
   "devDependencies": {
-    "@angular/compiler-cli": "^5.2.8",
     "@angular/language-service": "^5.2.8",
     "@types/jasmine": "~2.8.6",
     "@types/jasminewd2": "~2.0.3",

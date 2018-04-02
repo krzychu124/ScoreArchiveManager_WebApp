@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  server: 'http://localhost:8080/',
+  server: 'https://score-archive-manager-api.herokuapp.com/',
 
   msczEndpoint: '/mscz',
   pdfEndpoint: '/pdf',
