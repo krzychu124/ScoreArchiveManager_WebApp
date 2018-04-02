@@ -1,15 +1,22 @@
-<div class="item-full-width" fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="5px">
+<mat-divider></mat-divider>
+<mat-list-item>
+  <div class="item-full-width" fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="1px">
   <div fxFlex="100%" class="text" fxLayout="row" fxLayoutGap="20px">
-    <input matInput readonly placeholder="{{fileName}}">
+    <input matInput readonly placeholder="{{fileName}}" [matTooltip]="fileName">
   </div>
-  <div fxFlex="100%" fxFlexAlign="center" *ngIf="loading">
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  <div fxFlex="100%" fxFlexAlign="center" *ngIf="loading || removing">
+    <mat-progress-bar mode="indeterminate" [color]="removing ? 'warn':'primary'"></mat-progress-bar>
+  </div>
+  <div *ngIf="readyToUpload && !loading && !fileUploaded" fxFlexAlign="end" fxLayoutAlign="space-between center" class="actions">
+    <button mat-icon-button (click)="remove()">
+      <mat-icon class="mat-18" matTooltip="Usuń" matTooltipPosition="right">clear</mat-icon>
+  </button>
   </div>
   <div *ngIf="loading" fxFlexAlign="end">
-    <mat-icon class="size" color="warn" (click)="iconClick()">{{status}}</mat-icon>
+    <mat-icon class="size" color="warn" (click)="reset()">{{status}}</mat-icon>
   </div>
-  <div *ngIf="loaded && !loading && fileName !== ''">
-    <mat-icon class="size" color="primary" (click)="iconClick()">delete</mat-icon>
+  <div *ngIf="fileUploaded && !loading">
+    <mat-icon class="size" color="primary" (click)="removeFile()">delete</mat-icon>
   </div>
-  <br>
 </div>
+</mat-list-item>

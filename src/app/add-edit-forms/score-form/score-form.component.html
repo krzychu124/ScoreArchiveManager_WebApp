@@ -2,7 +2,7 @@
   <code *ngIf="error">{{ error }}</code>
   <br>
   <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="15px">
-    <mat-vertical-stepper [linear]="true" #stepper>
+    <mat-vertical-stepper [linear]="false" #stepper>
       <mat-step [stepControl]="titleGroup">
         <ng-template matStepLabel>
           <span *ngIf="(scoreTitle || scoreTitle.value) && !scoreTitle.value.title">Wybierz tytuł z listy dostępnych</span>
@@ -64,11 +64,16 @@
         <ng-template matStepLabel>Dodaj PDF, zdjęcie, plik mscz, lub inne materiały</ng-template>
         <div fxLayout="column" fxLayoutAlign="center stretch" fxLayoutGap="10px">
           <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="15px">
-            <app-file-add #fileAdd [instrument]="instrument.value" [scoreType]="scoreType.value" [scoreTitle]="scoreTitle.value" [showList]="showFiles"></app-file-add>
+            <app-file-add #fileAdd [instrument]="instrument.value" [scoreType]="scoreType.value" [scoreTitle]="scoreTitle.value" [showList]="showFiles" (processingFiles)="processing($event)"></app-file-add>
           </div>
           <div fxLayoutAlign="end center" fxLayoutGap="10px">
-            <button mat-raised-button (click)="add(formDirective)" color="primary" [disabled]="scoreForm.invalid" fxFlex="40">Dodaj</button>
-            <button mat-raised-button color="accent" (click)="stepper.reset(); fileAdd.reset(); clear(formDirective);" fxFlex="40">Wyczyść</button>
+            <button mat-raised-button (click)="add(formDirective)" color="primary" [disabled]="pendingFiles || scoreForm.invalid" fxFlex="40">Dodaj</button>
+            <button mat-raised-button color="accent" (click)="stepper.reset(); clear(formDirective);" fxFlex="40">Wyczyść</button>
+          </div>
+          <div *ngIf="error" class="save-error">
+            <span class="save-error">Wystąpił bład przy dodawaniu utworu :/ </span>
+            <br>
+            <span>Szczegóły błędu: {{error}}</span>
           </div>
         </div>
       </mat-step>

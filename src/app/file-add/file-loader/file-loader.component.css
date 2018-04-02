@@ -8,3 +8,6 @@
 h2 {
     font-size: 16px!important;
 }
+.container > .mat-list-item-content {
+    padding-right: 0px;
+}

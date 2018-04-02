@@ -1,7 +1,4 @@
 <mat-list [disableRipple]="false">
-  <input type="file" #fileInput (change)="uploadNewFile($event)" hidden>
-  <mat-list-item *ngFor="let file of uploadingFiles; let i = index">
-    <app-file-loader-item [loaded]="i == 0" [file]="file" [scoreTitle]="scoreTitle" [scoreType]="scoreType" [instrument]="instrument" [fileType]="fileType"
-      class="full-width" (removed)="fileRemoved(i)" (completed)="completed($event)"></app-file-loader-item>
-  </mat-list-item>
+  <input type="file" #fileInput (change)="addToUpload($event)" multiple hidden>
+  <ng-template #itemList></ng-template>
 </mat-list>

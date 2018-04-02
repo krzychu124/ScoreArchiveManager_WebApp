@@ -5,10 +5,14 @@
 }
 .item-full-width {
     width: 100%;
+    margin-right: -30px;
 }
 .fi{
     display: none;
 }
 .button{
     width: 100%;
+}
+.actions {
+    margin-right: -30px;
 }
