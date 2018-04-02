@@ -35,6 +35,10 @@ import { StorageFileComponent } from '@app/storage-manager/storage-file/storage-
 import { InputFileComponent } from './input-file/input-file.component';
 import { RestService } from '@app/shared/service/rest.service';
 import { DisplayFileComponent } from '@app/storage-manager/display-file/display-file.component';
+import { FileMetadataEndpointService } from '@app/shared/service/fileService/file-metadata-endpoint.service';
+import { PdfPreviewComponent } from '@app/storage-manager/pdf-preview/pdf-preview.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,8 +65,8 @@ import { DisplayFileComponent } from '@app/storage-manager/display-file/display-
     ScoreBooksComponent,
     StorageManagerComponent,
     StorageFileComponent,
-    DisplayFileComponent
-    // InputFileComponent
+    DisplayFileComponent,
+    PdfPreviewComponent
   ],
   imports: [
     BrowserModule,
@@ -72,7 +76,8 @@ import { DisplayFileComponent } from '@app/storage-manager/display-file/display-
     ReactiveFormsModule,
     AppRoutingModule,
     FlexLayoutModule,
-    CustomMaterialModule
+    CustomMaterialModule,
+    PdfViewerModule
   ],
   providers: [
     DataService,
@@ -83,7 +88,11 @@ import { DisplayFileComponent } from '@app/storage-manager/display-file/display-
       deps: [DbDictionariesService],
       multi: true
     },
-    RestService
+    RestService,
+    FileMetadataEndpointService
+  ],
+  entryComponents: [
+    PdfPreviewComponent
   ],
   bootstrap: [AppComponent]
 })

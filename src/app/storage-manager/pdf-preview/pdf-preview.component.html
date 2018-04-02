@@ -1,0 +1,4 @@
+<div fxLayout="column" fxLayoutAlign="center center" class="pdf-content">
+  <mat-progress-spinner *ngIf="downloading" mode="indeterminate" color="primary"></mat-progress-spinner>
+  <pdf-viewer [src]="imageSource" originalSize="false" style="overflow-y: scroll;"> </pdf-viewer>
+</div>

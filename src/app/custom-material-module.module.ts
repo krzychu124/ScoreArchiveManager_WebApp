@@ -4,7 +4,7 @@ import {
   MatProgressBarModule, MatPaginatorModule, MatSelectModule,
   MatIconModule, MatSidenavContainer, MatSidenavModule,
   MatCheckboxModule, MatToolbarModule, MatListModule,
-  MatCardMdImage, MatCardModule, MatTableModule, MatDialogModule, MatTooltipModule, MatStepperModule, MatAccordion, MatExpansionModule
+  MatCardMdImage, MatCardModule, MatTableModule, MatDialogModule, MatTooltipModule, MatStepperModule, MatAccordion, MatExpansionModule, MatAutocompleteModule, MatProgressSpinnerModule
 } from '@angular/material';
 
 @NgModule({
@@ -26,6 +26,8 @@ import {
     MatTooltipModule,
     MatStepperModule,
     MatExpansionModule,
+    MatAutocompleteModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatButtonModule,
@@ -44,7 +46,9 @@ import {
     MatDialogModule,
     MatTooltipModule,
     MatStepperModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatAutocompleteModule,
+    MatProgressSpinnerModule
   ],
 })
 export class CustomMaterialModule { }
