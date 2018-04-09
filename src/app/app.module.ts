@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
-
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { CustomMaterialModule } from './custom-material-module.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -38,6 +37,11 @@ import { DisplayFileComponent } from '@app/storage-manager/display-file/display-
 import { FileMetadataEndpointService } from '@app/shared/service/fileService/file-metadata-endpoint.service';
 import { PdfPreviewComponent } from '@app/storage-manager/pdf-preview/pdf-preview.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { RegisterComponent } from './register/register.component';
+import { AuthorizationService } from '@app/shared/service/authorization.service';
+import { HttpReqInterceptor } from '@app/shared/service/interceptor/http-req-interceptor';
+import { LoginComponent } from './login/login.component';
+import { CanActivateDashboardService } from '@app/shared/service/auth/can-activate-dashboard.service';
 
 @NgModule({
   declarations: [
@@ -66,8 +70,10 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     StorageManagerComponent,
     StorageFileComponent,
     DisplayFileComponent,
-    PdfPreviewComponent
-  ],
+    PdfPreviewComponent,
+    RegisterComponent,
+    LoginComponent
+],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -84,12 +90,25 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     DbDictionariesService,
     {
       provide: APP_INITIALIZER,
-      useFactory: (ds: DbDictionariesService) => function () { return ds },
+      useFactory: (ds: DbDictionariesService) => function () { return ds; },
       deps: [DbDictionariesService],
       multi: true
     },
+    AuthorizationService, 
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (auth: AuthorizationService) => function () { return auth; },
+      deps: [AuthorizationService],
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpReqInterceptor,
+      multi: true
+    },
+    CanActivateDashboardService,
+    FileMetadataEndpointService,
     RestService,
-    FileMetadataEndpointService
   ],
   entryComponents: [
     PdfPreviewComponent

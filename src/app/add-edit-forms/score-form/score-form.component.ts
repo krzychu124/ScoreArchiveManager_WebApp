@@ -76,7 +76,7 @@ export class ScoreFormComponent implements OnInit, OnDestroy {
     score.museScoreFiles = score.museScoreFiles.concat(mscz);
     score.imageFiles = score.imageFiles.concat(image);
     score.othersFiles = score.othersFiles.concat(other);
-    this.http.post(environment.server + environment.score, score).subscribe(resp => {
+    this.http.post(environment.apiServer + environment.score, score).subscribe(resp => {
       this.error = null;
       this.clear(formDirective, true);
     }, err => {

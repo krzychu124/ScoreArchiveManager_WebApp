@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
+  apiServer: 'https://score-archive-manager-api.herokuapp.com/api',
   server: 'https://score-archive-manager-api.herokuapp.com/',
-
   msczEndpoint: '/mscz',
   pdfEndpoint: '/pdf',
   imageEndpoint: '/image',
@@ -13,5 +13,6 @@ export const environment = {
   score: '/score',
   scoreTitle: '/scoreTitle',
   storage: '/storage',
-  fileMetadata: '/fileMetadata'
+  fileMetadata: '/fileMetadata',
+  userEndpoint: '/user'
 };

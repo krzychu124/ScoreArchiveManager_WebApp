@@ -54,7 +54,7 @@ export class ScoresComponent implements OnInit, OnDestroy {
       {
         'scoreTypeId': scoreTypeId
       };
-    this.http.get(environment.server + environment.score, { params: parameters }).subscribe(resp => {
+    this.http.get(environment.apiServer + environment.score, { params: parameters }).subscribe(resp => {
       this.error = null;
       this.dataSource.data = resp as Array<ScoreRow>;
     }, err => {

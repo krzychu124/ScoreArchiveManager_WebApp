@@ -32,17 +32,15 @@ export class DashboardComponent {
     });
   }
   onClick($event) {
-    console.log(this.fileList);
-    this.http.get(environment.server + environment.scoreTitle).subscribe(resp => {
+    this.http.get(environment.apiServer + environment.scoreTitle).subscribe(resp => {
       this.titles = resp as Array<ScoreTitle>;
     }, err => {
       console.log(err);
     });
-    // $event.preventDefault();
   }
   add() {
     const scoreTitle = this.newTitle;
-    this.http.post(environment.server + environment.scoreTitle, scoreTitle).subscribe(resp => {
+    this.http.post(environment.apiServer + environment.scoreTitle, scoreTitle).subscribe(resp => {
       this.onClick(null);
     }, err => {
       console.log(err);
@@ -53,8 +51,7 @@ export class DashboardComponent {
     formData.append('file', this.fileList[0]);
     const fileInfo = { name: this.fileList[0].name, scoreType: 'OTHER' } as FileInfo;
     formData.append('fileInfo', new Blob([JSON.stringify(fileInfo)], { type: 'application/json' }));
-    this.http.post(environment.server + environment.pdfEndpoint, formData).subscribe(resp => {
-      console.log(resp);
+    this.http.post(environment.apiServer + environment.pdfEndpoint, formData).subscribe(resp => {
     }, err => {
       console.log(err);
     });
@@ -62,8 +59,7 @@ export class DashboardComponent {
   get() {
     let params = new HttpParams();
     params = params.append('name', 'textFile');
-    this.http.get(environment.server + environment.pdfEndpoint, { params: params }).subscribe(resp => {
-      console.log(resp);
+    this.http.get(environment.apiServer + environment.pdfEndpoint, { params: params }).subscribe(resp => {
       const blob = new Blob([resp]);
       let f = new FileReader();
       importedSaveAs(new Blob([resp]), 'files.mss');
@@ -79,8 +75,7 @@ export class DashboardComponent {
     const fileType = ScoreFileType.PDF;
     let params = new HttpParams();
     params = params.append('fileType', ScoreFileType[fileType]);
-    this.http.get(environment.server + environment.storage + '/fileList', { params: params }).subscribe(resp => {
-      console.log(resp);
+    this.http.get(environment.apiServer + environment.storage + '/fileList', { params: params }).subscribe(resp => {
       this.storageFileList = resp as Array<string>;
     }, err => {
       console.log(err);

@@ -21,7 +21,7 @@
               <small>Dodaj nowy tytuł zeszytu</small>
             </mat-card-title>
             <mat-card-content>
-              <app-score-book-title-form></app-score-book-title-form>
+              <app-score-book-title-form (scoreBookTitleAdded)="refreshData($event)"></app-score-book-title-form>
             </mat-card-content>
           </mat-card>
         </div>

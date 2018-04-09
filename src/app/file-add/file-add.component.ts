@@ -60,24 +60,6 @@ export class FileAddComponent implements OnInit, AfterViewInit {
         this.allSent = state;
       });
     }
-    // if(this.msczFiles) {
-    //   this.msczFiles.uploadedFiles.subscribe(files => {
-    //     this.mscz =files; 
-    //     // console.log(files.length);
-    //   });
-    // }
-    // if(this.imageFiles) {
-    //   this.imageFiles.uploadedFiles.subscribe(files => {
-    //     this.image = files;  
-    //     // console.log(files.length);
-    //   });
-    // }
-    // if(this.otherFiles) {
-    //   this.otherFiles.uploadedFiles.subscribe(files => {
-    //     this.other = files;  
-    //     // console.log(files.length);
-    //   });
-    // }
   }
   completed($event) {
     this.allSent = $event;

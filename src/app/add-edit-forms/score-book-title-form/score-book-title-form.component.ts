@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormGroupDirective } from '@angular/forms';
 import { environment } from 'environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -10,10 +10,11 @@ import { ScoreBookTitle } from '@app/shared/scoreBookTitle';
   styleUrls: ['./score-book-title-form.component.css']
 })
 export class ScoreBookTitleFormComponent implements OnInit {
+  @Output() scoreBookTitleAdded: EventEmitter<boolean> = new EventEmitter();
   name: FormControl;
   scoreBookTitleForm: FormGroup;
   error = null;
-  
+
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
@@ -33,11 +34,13 @@ export class ScoreBookTitleFormComponent implements OnInit {
   add(formDirective: FormGroupDirective) {
     const title = new ScoreBookTitle(this.name.value);
     this.error = null;
-    this.http.post(environment.server + environment.scoreBookTitle_endpoint, title).subscribe(resp => {
+    this.http.post(environment.apiServer + environment.scoreBookTitle_endpoint, title).subscribe(resp => {
       this.clear(formDirective);
+      this.scoreBookTitleAdded.emit(true);
     }, err => {
       this.error = err;
-    })
+      this.scoreBookTitleAdded.emit(false);
+    });
   }
 
   clear(formDirective: FormGroupDirective) {

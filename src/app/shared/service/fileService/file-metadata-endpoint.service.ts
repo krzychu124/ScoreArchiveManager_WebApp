@@ -10,7 +10,7 @@ export class FileMetadataEndpointService {
     private serv: string;
     private fileEndP: string;
     constructor(private http: HttpClient) {
-        this.serv = environment.server;
+        this.serv = environment.apiServer;
         this.fileEndP = environment.fileMetadata;
     }
 

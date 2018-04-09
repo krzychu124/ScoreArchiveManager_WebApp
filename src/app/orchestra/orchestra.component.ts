@@ -7,6 +7,7 @@ import { startWith, map } from 'rxjs/operators';
 import { GenericFile } from '@app/shared/GenericFile';
 import { MatSelect, MatAutocompleteSelectedEvent } from '@angular/material';
 import { RestService } from '@app/shared/service/rest.service';
+import { DbDictionariesService } from '@app/shared/service/db-dictionaries.service';
 
 @Component({
   selector: 'app-orchestra',
@@ -20,9 +21,8 @@ export class OrchestraComponent implements OnInit {
   protected metaDataPDFList: Array<GenericFile> = [];
   protected filteredInstruments: Observable<Instrument[]>;
 
-  constructor(private dataService: DataService, private rest: RestService) {
+  constructor(private dataService: DataService, private rest: RestService, private dbDict: DbDictionariesService) {
     this.instrFormControl = new FormControl();
-    dataService.instruments.subscribe(instruments => this.instruments = instruments);
     this.filteredInstruments = this.instrFormControl.valueChanges
       .pipe(startWith<string | Instrument>(''),
         map(value => typeof value === 'string' ? value : value.name),
@@ -30,6 +30,8 @@ export class OrchestraComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dataService.instruments.subscribe(instruments => this.instruments = instruments);
+    this.dbDict.updateInstruments(true);
   }
   filterInstr(name: any) {
     if (name instanceof Instrument) {
@@ -41,7 +43,6 @@ export class OrchestraComponent implements OnInit {
     return instr ? instr.name + ' ' + instr.voiceNumber : null;
   }
   instrumentSelected(option: MatAutocompleteSelectedEvent) {
-    console.log(option.option.value);
     if (option.option.value) {
       this.rest.getFileMetadataByInstrument(option.option.value).subscribe(resp => {
         this.metaDataPDFList = resp;

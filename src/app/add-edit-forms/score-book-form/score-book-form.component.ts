@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { ScoreType } from '@app/shared/scoreType.enum';
 import { ScoreBookTitle } from '@app/shared/scoreBookTitle';
 import { Instrument } from '@app/shared/instrument';
@@ -17,6 +17,7 @@ import { Subject } from 'rxjs/Subject';
 })
 export class ScoreBookFormComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject();
+  @Output() scoreBookAdded: EventEmitter<boolean> = new EventEmitter<boolean>();
   scoreBook: ScoreBook;
   scoreBookTitle;
   scoreBookTitles: Array<ScoreBookTitle> = [];
@@ -61,11 +62,13 @@ export class ScoreBookFormComponent implements OnInit, OnDestroy {
 
   add(formDirective: FormGroupDirective) {
     const scoreBook = new ScoreBook(this.scoreType.value as ScoreType, this.scoreBookTitle.value as ScoreBookTitle, this.instrument.value as Instrument);
-    this.http.post(environment.server + environment.scoreBook_endpoint, scoreBook).subscribe(resp => {
+    this.http.post(environment.apiServer + environment.scoreBook_endpoint, scoreBook).subscribe(resp => {
       this.error = null;
+      this.scoreBookAdded.emit(true);
       this.clear(formDirective);
     }, err => {
       this.error = err.message;
+      this.scoreBookAdded.emit(false);
     })
   }
 

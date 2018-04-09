@@ -10,17 +10,19 @@ import { ScoreFileType } from '@app/shared/scoreFileType.enum';
 import { GenericFile } from '@app/shared/GenericFile';
 import { Instrument } from '@app/shared/instrument';
 import { FileMetadataEndpointService } from '@app/shared/service/fileService/file-metadata-endpoint.service';
+import { User } from '@app/shared/user';
 
 @Injectable()
 export class RestService {
     private env = environment;
 
-    constructor(private http: HttpClient, private fileMetadataRest: FileMetadataEndpointService) { }
+    constructor(private http: HttpClient, private fileMetadataRest: FileMetadataEndpointService) { 
+    }
 
     public downloadFile(fileName: string): Observable<HttpResponse<Blob>> {
         const e = this.env;
         const param = new HttpParams().append('fileName', fileName);
-        return this.http.get(e.server + e.filesEndpoint, { observe: 'response', responseType: 'blob', params: param });
+        return this.http.get(e.apiServer + e.filesEndpoint, { observe: 'response', responseType: 'blob', params: param });
     }
 
     public uploadFile(file: File, info: FileInfo): Observable<PDFFile> {
@@ -28,7 +30,7 @@ export class RestService {
         let formData = new FormData();
         formData.append('file', file);
         formData.append('fileInfo', new Blob([JSON.stringify(info)], { type: 'application/json' }));
-        return this.http.post<PDFFile>(e.server + e.pdfEndpoint, formData);
+        return this.http.post<PDFFile>(e.apiServer + e.pdfEndpoint, formData);
     }
 
     public uploadFile2(file: File, info: FileInfo): Observable<GenericFile> {
@@ -36,17 +38,17 @@ export class RestService {
         let formData = new FormData();
         formData.append('file', file);
         formData.append('fileInfo', new Blob([JSON.stringify(info)], { type: 'application/json' }));
-        return this.http.post<GenericFile>(e.server + e.filesEndpoint, formData);
+        return this.http.post<GenericFile>(e.apiServer + e.filesEndpoint, formData);
     }
 
     public removeFile(fileName: string): Observable<Object> {
         const e = this.env;
-        return this.http.delete<Object>(e.server + e.filesEndpoint + '/fileName/' + fileName);
+        return this.http.delete<Object>(e.apiServer + e.filesEndpoint + '/fileName/' + fileName);
     }
 
     public deletePermanently(fileId: number) {
         const e = this.env;
-        return this.http.delete<Object>(e.server + e.filesEndpoint + '/' + fileId);
+        return this.http.delete<Object>(e.apiServer + e.filesEndpoint + '/' + fileId);
     }
 
     public uploadPDF(file: File, info: FileInfo): Observable<PDFFile> {
@@ -54,7 +56,7 @@ export class RestService {
         let formData = new FormData();
         formData.append('file', file);
         formData.append('fileInfo', new Blob([JSON.stringify(info)], { type: 'application/json' }));
-        return this.http.post<PDFFile>(e.server + e.pdfEndpoint, formData);
+        return this.http.post<PDFFile>(e.apiServer + e.pdfEndpoint, formData);
     }
 
     public uploadMSCZ(file: File, info: FileInfo): Observable<MuseScoreFile> {
@@ -62,7 +64,7 @@ export class RestService {
         let formData = new FormData();
         formData.append('file', file);
         formData.append('fileInfo', new Blob([JSON.stringify(info)], { type: 'application/json' }));
-        return this.http.post<MuseScoreFile>(e.server + e.msczEndpoint, formData);
+        return this.http.post<MuseScoreFile>(e.apiServer + e.msczEndpoint, formData);
     }
 
     public uploadImage(file: File, info: FileInfo): Observable<MuseScoreFile> {
@@ -70,7 +72,7 @@ export class RestService {
         let formData = new FormData();
         formData.append('file', file);
         formData.append('fileInfo', new Blob([JSON.stringify(info)], { type: 'application/json' }));
-        return this.http.post<MuseScoreFile>(e.server + e.imageEndpoint, formData);
+        return this.http.post<MuseScoreFile>(e.apiServer + e.imageEndpoint, formData);
     }
 
     public uploadOther(file: File, info: FileInfo): Observable<MuseScoreFile> {
@@ -78,18 +80,18 @@ export class RestService {
         let formData = new FormData();
         formData.append('file', file);
         formData.append('fileInfo', new Blob([JSON.stringify(info)], { type: 'application/json' }));
-        return this.http.post<MuseScoreFile>(e.server + e.otherEndpoint, formData);
+        return this.http.post<MuseScoreFile>(e.apiServer + e.otherEndpoint, formData);
     }
 
     public generateThumb(fileName: string): Observable<Object> {
         const e = this.env;
-        return this.http.put(e.server + e.filesEndpoint + '/' + fileName + '/thumb', null);
+        return this.http.put(e.apiServer + e.filesEndpoint + '/' + fileName + '/thumb', null);
     }
 
-    public getFileMetadataByType(fileType: ScoreFileType): Observable<Array<GenericFile>> {
+    public getFileMetadataByType(fileType: ScoreFileType): Observable<GenericFile[]> {
         const e = this.env;
         const param = new HttpParams().set('fileType', ScoreFileType[fileType]);
-        return this.http.get<Array<GenericFile>>(e.server + e.fileMetadata, { params: param });
+        return this.http.get<GenericFile[]>(e.apiServer + e.fileMetadata, { params: param });
     }
     
     public getFileMetadataByInstrument(instrument: Instrument): Observable<GenericFile[]> {
@@ -99,6 +101,10 @@ export class RestService {
     public getPDFBase64(fileName: string): Observable<FileWithMetadata> {
         const e = this.env;
         const param = new HttpParams().set('fileName', fileName);
-        return this.http.get<FileWithMetadata>(e.server + e.filesEndpoint + '/base64', { params: param });
+        return this.http.get<FileWithMetadata>(e.apiServer + e.filesEndpoint + '/base64', { params: param });
+    }
+
+    public registerUser(newUser: User): Observable<boolean> {
+        return this.http.post<boolean>(this.env.server + this.env.userEndpoint, newUser);
     }
 }

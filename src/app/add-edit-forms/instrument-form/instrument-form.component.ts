@@ -10,6 +10,7 @@ import { FormGroup, FormControl, Validators, FormGroupDirective } from '@angular
   styleUrls: ['./instrument-form.component.css']
 })
 export class InstrumentFormComponent implements OnInit {
+  @Output() instrumentAdded: EventEmitter<boolean> = new EventEmitter();
   name: FormControl;
   voiceNumber: FormControl;
   pitch: FormControl;
@@ -37,11 +38,13 @@ export class InstrumentFormComponent implements OnInit {
 
   add(formDirective: FormGroupDirective) {
     const instrument = new Instrument(this.name.value, this.pitch.value, this.voiceNumber.value);
-    this.http.post(environment.server + environment.instrument_endpoint, instrument).subscribe(resp => {
-      this.error = resp;
+    this.http.post(environment.apiServer + environment.instrument_endpoint, instrument).subscribe(resp => {
+      this.error = null;
+      this.instrumentAdded.emit(true);
       this.clear(formDirective);
     }, err => {
-      this.error = err;
+      this.error = JSON.stringify(err);
+      this.instrumentAdded.emit(false);
     })
   }
 

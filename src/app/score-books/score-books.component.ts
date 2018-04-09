@@ -40,7 +40,7 @@ export class ScoreBooksComponent implements OnInit, OnDestroy {
 
   fetchScoreBooks(): void {
     const scoreTypeId = this.scoreType ? this.scoreType.value.id != undefined ? this.scoreType.value.id : '1' : '1';
-    this.http.get(environment.server + environment.scoreBook_endpoint + '/scoreType/' + scoreTypeId).subscribe(resp => {
+    this.http.get(environment.apiServer + environment.scoreBook_endpoint + '/scoreType/' + scoreTypeId).subscribe(resp => {
       this.error = null;
       this.dataSource.data = resp as Array<ScoreBook>;
     }, err => {
@@ -57,10 +57,14 @@ export class ScoreBooksComponent implements OnInit, OnDestroy {
       scoreType: this.scoreType,
       instrument: this.instrument
     });
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   refreshTable($event): void {
-    this.fetchScoreBooks();
+    if ($event) {
+      this.fetchScoreBooks();
+    }
   }
 
   ngOnDestroy() {

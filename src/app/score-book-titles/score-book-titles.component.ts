@@ -7,6 +7,7 @@ import { DataSource } from '@angular/cdk/table';
 import { DataService } from '@app/shared/service/data.service';
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/operators';
+import { DbDictionariesService } from '@app/shared/service/db-dictionaries.service';
 
 @Component({
   selector: 'app-score-book-titles',
@@ -22,18 +23,26 @@ export class ScoreBookTitlesComponent implements OnInit, OnDestroy {
   visible: boolean = false;
   error = null;
   canAddScoreBookTitle = true;
-  constructor(private http: HttpClient, private dataService: DataService) { }
+  constructor(private http: HttpClient, private dataService: DataService, private dbDict: DbDictionariesService) { }
 
   ngOnInit() {
-    this.dataService.scoreBookTitles.pipe(takeUntil(this.ngUnsubscribe)).subscribe(value =>{this.error = null; this.dataSource.data = value;});
+    this.dataService.scoreBookTitles.pipe(takeUntil(this.ngUnsubscribe)).subscribe(value => { 
+      this.error = null;
+      this.dataSource.data = value; 
+    },err=> console.error(err));
   }
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+  refreshData($event) {
+    if ($event) {
+      this.dbDict.updateScoreBookTitles();
+    }
   }
 }

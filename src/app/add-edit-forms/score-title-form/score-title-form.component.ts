@@ -17,6 +17,7 @@ import { Subject } from 'rxjs/Subject';
   styleUrls: ['./score-title-form.component.css']
 })
 export class ScoreTitleFormComponent implements OnInit, OnDestroy {
+  @Output() scoreTitleAdded: EventEmitter<boolean> = new EventEmitter();
   private ngUnsubscribe = new Subject();
   scoreTypes: Array<any> = [];
   title: FormControl;
@@ -25,7 +26,7 @@ export class ScoreTitleFormComponent implements OnInit, OnDestroy {
   error = null;
   scoreTitleForm: FormGroup;
   processingAnim: boolean = false; //TODO add animations
-  constructor(private http: HttpClient, private dataService: DataService, private dbDict: DbDictionariesService) { }
+  constructor(private http: HttpClient, private dataService: DataService) { }
 
   ngOnInit() {
     this.dataService.scoreTypes.pipe(takeUntil(this.ngUnsubscribe)).subscribe(value => this.scoreTypes = value);
@@ -49,12 +50,13 @@ export class ScoreTitleFormComponent implements OnInit, OnDestroy {
   add(formDirective: FormGroupDirective) {
     const scoreTitle = new ScoreTitle(this.title.value, this.number.value, this.scoreType.value);
     this.error = null;
-    this.http.post(environment.server + environment.scoreTitle, scoreTitle).subscribe(resp => {
+    this.http.post(environment.apiServer + environment.scoreTitle, scoreTitle).subscribe(resp => {
       this.error = null;
       this.clear(formDirective);
-      this.dbDict.updateScoreTitles();
+      this.scoreTitleAdded.emit(true);
     }, err => {
       this.error = JSON.stringify(err.message);
+      this.scoreTitleAdded.emit(false);
     });
   }
 

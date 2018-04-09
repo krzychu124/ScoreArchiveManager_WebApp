@@ -17,7 +17,7 @@
             <small>Dodaj nowy zeszyt</small>
           </mat-card-title>
           <mat-card-content>
-            <app-score-book-form class="score-form"></app-score-book-form>
+            <app-score-book-form class="score-form" (scoreBookAdded)="refreshTable()"></app-score-book-form>
           </mat-card-content>
         </mat-card>
       </div>

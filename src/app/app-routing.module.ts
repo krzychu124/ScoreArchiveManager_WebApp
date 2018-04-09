@@ -10,9 +10,14 @@ import { ScoreTitlesComponent } from './score-titles/score-titles.component';
 import { InstrumentsComponent } from './instruments/instruments.component';
 import { ScoreBooksComponent } from '@app/score-books/score-books.component';
 import { StorageManagerComponent } from '@app/storage-manager/storage-manager.component';
+import { RegisterComponent } from '@app/register/register.component';
+import { LoginComponent } from '@app/login/login.component';
+import { CanActivateDashboardService } from '@app/shared/service/auth/can-activate-dashboard.service';
 
 const routes: Routes = [
   { path: '', component: WelcomeComponent, pathMatch: 'full' },
+  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
   {
     path: 'dashboard', component: DashboardComponent,
     children: [
@@ -21,8 +26,10 @@ const routes: Routes = [
       { path: 'score-book-titles', component: ScoreBookTitlesComponent },
       { path: 'score-titles', component: ScoreTitlesComponent },
       { path: 'instruments', component: InstrumentsComponent },
-      { path: 'storage', component: StorageManagerComponent }      
-    ]
+      { path: 'storage', component: StorageManagerComponent }
+    ], 
+    canActivate: [CanActivateDashboardService],
+    
   },
   { path: 'band', component: DashboardComponent },
   { path: 'orchestra', component: OrchestraComponent },

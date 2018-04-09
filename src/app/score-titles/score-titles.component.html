@@ -19,7 +19,7 @@
             <small>Dodaj nowy tytuł utworu</small>
           </mat-card-title>
           <mat-card-content>
-            <app-score-title-form></app-score-title-form>
+            <app-score-title-form (scoreTitleAdded)="refreshData($event)"></app-score-title-form>
           </mat-card-content>
         </mat-card>
       </div>

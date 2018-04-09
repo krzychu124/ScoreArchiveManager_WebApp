@@ -19,7 +19,7 @@
             <small>Dodaj nowy instrument</small>
           </mat-card-title>
           <mat-card-content>
-            <app-instrument-form></app-instrument-form>
+            <app-instrument-form (instrumentAdded)="refreshData($event)"></app-instrument-form>
           </mat-card-content>
         </mat-card>
       </div>

@@ -1,0 +1,33 @@
+<div class="container">
+  <div fxLayout="row" class="register-row" fxLayoutAlign="center center" fxLayoutGap="10px">
+    <form>
+      <div fxLayout="row" fxLayoutAlign="start stretch" fxLayoutGap="20px">
+        <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="20px">
+          <button mat-raised-button [routerLink]="['/']" class="home-button" color="accent">
+            <mat-icon class="mat-18">home</mat-icon>
+          </button>
+        </div>
+        <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="20px">
+          <mat-input-container floatPlaceholder="auto">
+            <input matInput type="text" [formControl]="name" placeholder="Imię">
+          </mat-input-container>
+          <mat-input-container floatPlaceholder="auto">
+            <input matInput type="text" [formControl]="surname" placeholder="Nazwisko">
+          </mat-input-container>
+          <mat-input-container floatPlaceholder="auto">
+            <input matInput type="text" [formControl]="email" placeholder="Email">
+          </mat-input-container>
+        </div>
+        <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="20px">
+          <mat-input-container floatPlaceholder="auto">
+            <input matInput type="text" [formControl]="userName" placeholder="Login">
+          </mat-input-container>
+          <mat-input-container floatPlaceholder="auto">
+            <input matInput type="password" [formControl]="password" placeholder="Hasło">
+          </mat-input-container>
+          <button mat-raised-button (click)="register()" color="primary" class="register-button">Zarejestruj</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

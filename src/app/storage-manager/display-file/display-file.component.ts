@@ -41,7 +41,6 @@ export class DisplayFileComponent implements OnInit {
   }
   download($event) {
     this.rest.downloadFile(this.data.fileName).subscribe(resp => {
-      console.log(resp);
       var contentDispositionHeader = resp.headers.get('Content-Disposition');
       var result = contentDispositionHeader.split(';')[1].trim().split(':')[1].trim();
       const fileName = result.replace(/"/g, '');
@@ -60,7 +59,6 @@ export class DisplayFileComponent implements OnInit {
   }
   generateThumb() {
     this.rest.generateThumb(this.data.fileName).subscribe(resp => {
-      console.log('ok');
     }, err => console.error(err));
   }
 }

@@ -1,0 +1,15 @@
+<div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+<button mat-raised-button [routerLink]="['/']" color="accent">Back</button>
+<button mat-raised-button (click)="logout()" color="accent">Logout</button>
+  <form>
+    <mat-input-container floatPlaceholder="auto">
+      <input matInput type="text" [formControl]="userName" placeholder="Login">
+    </mat-input-container>
+    <mat-input-container floatPlaceholder="auto">
+      <input matInput type="password" [formControl]="password" placeholder="Password">
+    </mat-input-container>
+    <button mat-raised-button (click)="login()" color="primary">Login</button>
+  </form>
+  <br>
+  <span *ngIf="loginStatus">{{loginStatus}}</span>
+</div>

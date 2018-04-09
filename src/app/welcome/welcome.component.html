@@ -2,16 +2,17 @@
   <div class="navigation" fxLayoutAlign="center center">
     <div fxFlexAlign="center">
       <div flexLayout="row">
-      <button mat-raised-button class="w-butn" [routerLink]="['/login']">Login</button>
-      <button mat-raised-button class="w-butn" [routerLink]="['/register']">Register</button>
+      <button mat-raised-button class="w-butn" [routerLink]="['/login']" *ngIf="!isAuthorized()" color="warn">Login</button>
+      <button mat-raised-button class="w-butn" (click)="logout()" *ngIf="isAuthorized()">Wyloguj</button>
+      <button mat-raised-button class="w-butn" [routerLink]="['/register']" [disabled]="isAuthorized()" color="accent">Zarejestruj</button>
     </div>
       <div flexLayout="row">
-      <button mat-raised-button class="w-butn" [routerLink]="['/band']">Band</button>
-      <button mat-raised-button class="w-butn" [routerLink]="['/orchestra']">Orkiestra</button>
+      <button mat-raised-button class="w-butn" [routerLink]="['/band']" disabled>Band</button>
+      <button mat-raised-button class="w-butn" [routerLink]="['/orchestra']" [disabled]="!isAuthorized()">Orkiestra</button>
     </div>
     <div flexLayout="row">
-        <button mat-raised-button class="w-butn w-butn-small" color="primary" [routerLink]="['/dashboard']">Dashboard</button>
-        <button mat-raised-button class="w-butn w-butn-small" color="primary" [routerLink]="['/admindashboard']">Admin Dashboard</button>
+        <button mat-raised-button class="w-butn w-butn-small" color="primary" [routerLink]="['/dashboard']" [disabled]="!isAuthorized()">Dashboard</button>
+        <button mat-raised-button class="w-butn w-butn-small" color="primary" [routerLink]="['/admindashboard']" disabled>Admin Dashboard</button>
       </div>
   </div>
 </div>

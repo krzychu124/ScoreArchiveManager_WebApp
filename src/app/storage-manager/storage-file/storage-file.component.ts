@@ -10,7 +10,6 @@ export class StorageFileComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    // console.log(this.info);
   }
 
 }

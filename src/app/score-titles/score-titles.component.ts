@@ -7,6 +7,7 @@ import { ScoreType } from '@app/shared/scoreType.enum';
 import { DataService } from '@app/shared/service/data.service';
 import { Subject } from 'rxjs/Subject';
 import { takeUntil } from 'rxjs/operators';
+import { DbDictionariesService } from '@app/shared/service/db-dictionaries.service';
 
 @Component({
   selector: 'app-score-titles',
@@ -23,10 +24,10 @@ export class ScoreTitlesComponent implements OnInit, OnDestroy {
   error;
   canAddScoreTitle = true;
   scoreTypes: Array<ScoreType> = [];
-  constructor(private http: HttpClient, private dataService: DataService) { }
+  constructor(private http: HttpClient, private dataService: DataService, private dbDict: DbDictionariesService) { }
 
   ngOnInit() {
-    this.dataService.scoreTitles.pipe(takeUntil(this.ngUnsubscribe)).subscribe(value => this.dataSource.data = value, err => console.log('scoreTitles get Fail'));
+    this.dataService.scoreTitles.pipe(takeUntil(this.ngUnsubscribe)).subscribe(value => this.dataSource.data = value);
     this.dataService.scoreTypes.pipe(takeUntil(this.ngUnsubscribe)).subscribe(value => this.scoreTypes = value);
   }
 
@@ -41,5 +42,10 @@ export class ScoreTitlesComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+  refreshData($event) {
+    if ($event) {
+      this.dbDict.updateScoreTitles();
+    }
   }
 }
