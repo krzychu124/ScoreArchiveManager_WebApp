@@ -117,7 +117,6 @@ export class DbDictionariesService {
         const result = new Subject<boolean>();
         this.http.get(this.scoreTypesEndpoint).subscribe(resp => {
             this.dataService.updateScoreTypes(resp as Array<ScoreType>);
-            this.stopScoreTypesInterval = true;
             console.log('Score types fetch: OK');
             result.next(true);
         }, err => {
@@ -131,7 +130,6 @@ export class DbDictionariesService {
         const result = new Subject<boolean>();
         this.http.get(this.scoreBookTitlesEndpoint).subscribe(resp => {
             this.dataService.updateScoreBookTitles(resp as Array<ScoreBookTitle>);
-            this.stopBookTitlesInterval = true;
             console.log('Score book titles fetch: OK')
             result.next(true);
         }, err => {
@@ -145,7 +143,6 @@ export class DbDictionariesService {
         const result = new Subject<boolean>();
         this.http.get(this.scoreTitlesEndpoint).subscribe(resp => {
             this.dataService.updateScoreTitles(resp as Array<ScoreTitle>);
-            this.stopTitlesInterval = true;
             console.log('Score titles fetch: OK')
             result.next(true);
         }, err => {
@@ -159,7 +156,6 @@ export class DbDictionariesService {
         const result = new Subject<boolean>();
         this.http.get(this.instrumentsEndpoint).subscribe(resp => {
             this.dataService.updateInstruments(resp as Array<Instrument>);
-            this.stopInstumentInterval = true;
             console.log('Instruments fetch: OK');
             result.next(true);
         }, err => {

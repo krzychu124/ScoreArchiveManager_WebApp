@@ -42,7 +42,7 @@ export class ScoreBookTitlesComponent implements OnInit, OnDestroy {
   }
   refreshData($event) {
     if ($event) {
-      this.dbDict.updateScoreBookTitles();
+      this.dbDict.updateScoreBookTitles(true);
     }
   }
 }

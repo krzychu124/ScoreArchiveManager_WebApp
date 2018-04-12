@@ -40,7 +40,7 @@ export class InstrumentsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   refreshData($event) {
     if ($event) {
-      this.dbDicts.updateInstruments();
+      this.dbDicts.updateInstruments(true);
     }
   }
 }
