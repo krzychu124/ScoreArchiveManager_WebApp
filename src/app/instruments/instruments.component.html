@@ -7,6 +7,9 @@
           <button *ngIf="canAddIntrument" mat-mini-fab (click)="visible = !visible" color="primary">
               <mat-icon class="mat-36 hand">add</mat-icon>
           </button>
+          <button *ngIf="canAddIntrument" mat-mini-fab (click)="refreshData(true)" color="primary">
+            <mat-icon class="mat-36 hand">refresh</mat-icon>
+        </button>
         </mat-card-title-group>
       </mat-card>
     </div>

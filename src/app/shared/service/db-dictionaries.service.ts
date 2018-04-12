@@ -36,15 +36,20 @@ export class DbDictionariesService {
 
     public updateInstruments(force?: boolean) {
         if (this.userAuthorized && force) {
+            // force with retry interval on error
             this.fetchInstrments().subscribe(() => { }, err => this.updateInstruments(false));
         } else {
             if (!this.IQuerying) {
                 this.IQuerying = true;
-                Observable.interval(5000).takeWhile(() => !this.stopInstumentInterval).subscribe(() => {
+                this.stopInstumentInterval = false;
+                console.log('IQuerying true');
+                Observable.interval(5000).takeWhile(() => !this.stopInstumentInterval).subscribe(times => {
+                    console.log('UpdateInstruments call, times:' + times);
                     if (this.userAuthorized) {
                         this.fetchInstrments().subscribe(ok => {
                             this.stopInstumentInterval = true;
                             this.IQuerying = false;
+                            console.log('IQuerying false');
                         });
                     }
                 });
@@ -54,15 +59,20 @@ export class DbDictionariesService {
 
     public updateScoreTypes(force?: boolean) {
         if (this.userAuthorized && force) {
+            // force with retry interval on error
             this.fetchScoreTypes().subscribe(() => { }, err => this.updateScoreTypes(false));
         } else {
             if (!this.STIQuerying) {
                 this.STIQuerying = true;
-                Observable.interval(5000).takeWhile(() => !this.stopScoreTypesInterval).subscribe(() => {
+                this.stopScoreTypesInterval = false;
+                console.log('STIQuerying true');
+                Observable.interval(5000).takeWhile(() => !this.stopScoreTypesInterval).subscribe(times => {
+                    console.log('UpdateScoreTypes call, times:' + times);
                     if (this.userAuthorized) {
                         this.fetchScoreTypes().subscribe(ok => {
                             this.stopScoreTypesInterval = true;
                             this.STIQuerying = false;
+                            console.log('STIQuerying false');
                         });
                     }
                 });
@@ -72,15 +82,20 @@ export class DbDictionariesService {
 
     public updateScoreTitles(force?: boolean) {
         if (this.userAuthorized && force) {
+            // force with retry interval on error
             this.fetchScoreTitles().subscribe(() => { }, err => this.updateScoreTitles(false));
         } else {
             if (!this.STQuerying) {
                 this.STQuerying = true;
-                Observable.interval(5000).takeWhile(() => !this.stopTitlesInterval).subscribe(() => {
+                this.stopTitlesInterval = false;
+                console.log('STQuerying false');
+                Observable.interval(5000).takeWhile(() => !this.stopTitlesInterval).subscribe(times => {
+                    console.log('UpdateScoreTitles call, times:' + times);
                     if (this.userAuthorized) {
                         this.fetchScoreTitles().subscribe(ok => {
                             this.stopTitlesInterval = true;
                             this.STQuerying = false;
+                            console.log('STQuerying false');
                         });
                     }
                 });
@@ -90,15 +105,20 @@ export class DbDictionariesService {
 
     public updateScoreBookTitles(force?: boolean) {
         if (this.userAuthorized && force) {
+            // force with retry interval on error
             this.fetchScoreBookTitles().subscribe(() => { }, err => this.updateScoreBookTitles(false));
         } else {
             if (!this.SBTQuerying) {
                 this.SBTQuerying = true;
-                Observable.interval(5000).takeWhile(() => !this.stopBookTitlesInterval).subscribe(() => {
+                this.stopBookTitlesInterval = false;
+                console.log('SBTQuerying false');
+                Observable.interval(5000).takeWhile(() => !this.stopBookTitlesInterval).subscribe(times => {
+                    console.log('UpdateScoreBookTitles call, times: ' + times);
                     if (this.userAuthorized) {
                         this.fetchScoreBookTitles().subscribe(ok => {
                             this.stopBookTitlesInterval = true;
                             this.SBTQuerying = false;
+                            console.log('SBTQuerying false');
                         });
                     }
                 });
