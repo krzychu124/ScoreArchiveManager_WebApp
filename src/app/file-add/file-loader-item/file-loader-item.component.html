@@ -8,7 +8,7 @@
     <mat-progress-bar mode="indeterminate" [color]="removing ? 'warn':'primary'"></mat-progress-bar>
   </div>
   <div *ngIf="readyToUpload && !loading && !fileUploaded" fxFlexAlign="end" fxLayoutAlign="space-between center" class="actions">
-    <button mat-icon-button (click)="remove()">
+    <button mat-icon-button (click)="remove(true)">
       <mat-icon class="mat-18" matTooltip="Usuń" matTooltipPosition="right">clear</mat-icon>
   </button>
   </div>

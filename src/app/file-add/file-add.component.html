@@ -1,10 +1,11 @@
 <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
   <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px">
-    <button mat-raised-button color="primary" (click)="addPdf()">PDF</button>
-    <button mat-raised-button color="primary" (click)="addMscz()">Mscz</button>
-    <button mat-raised-button color="primary" (click)="addImage()">Obraz</button>
-    <button mat-raised-button color="primary" (click)="addOther()">Inny</button>
+    <button mat-raised-button color="warn" (click)="addPdf()">PDF</button>
+    <button mat-raised-button color="warn" (click)="addMscz()">Mscz</button>
+    <button mat-raised-button color="warn" (click)="addImage()">Obraz</button>
+    <button mat-raised-button color="warn" (click)="addOther()">Inny</button>
   </div>
+  <button mat-raised-button fxFlexFill (click)="sendAll($event)" *ngIf="pendingFiles && !allSent" color="primary">Wyślij wszystkie pliki</button>
   <mat-expansion-panel [expanded]="attachedFiles.getPendingFilesCount()> 0" [hideToggle]="true">
     <mat-expansion-panel-header fxLayout="row">
       <span fxFlex="100">Dołączone pliki</span>
@@ -12,5 +13,4 @@
     </mat-expansion-panel-header>
     <app-file-loader #attachedFiles [instrument]="instrument" [scoreTitle]="scoreTitle" [scoreType]="scoreType" (allCompleted)="completed($event)"></app-file-loader>
   </mat-expansion-panel>
-  <button mat-raised-button fxFlexFill (click)="sendAll($event)" *ngIf="pendingFiles && !allSent" color="primary">Wyślij wszystkie pliki</button>
 </div>

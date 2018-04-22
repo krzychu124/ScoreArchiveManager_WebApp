@@ -69,12 +69,12 @@ export class FileLoaderItemComponent implements OnInit {
   private uploadFile(file: File): void {
     this.loading = true;
     let fileInfo = {
-      instrumentId: this.instrument.id,
-      scoreTypeId: this.scoreType.id,
-      titleId: this.scoreTitle.id,
+      instrumentId: (this.instrument && this.instrument.id) || 0,
+      scoreTypeId: (this.scoreType && this.scoreType.id) || 0,
+      titleId: (this.scoreTitle && this.scoreTitle.id) || 0,
       scoreFileType: this.fileType
     } as FileInfo;
-    if (fileInfo.instrumentId && fileInfo.titleId && fileInfo.scoreTypeId) {
+    // if (fileInfo.instrumentId && fileInfo.titleId && fileInfo.scoreTypeId) {
       this.genericRestFileUpload(file, fileInfo).subscribe(resp => {
         this.loading = false;
         this.fileUploaded = true;
@@ -86,11 +86,11 @@ export class FileLoaderItemComponent implements OnInit {
         this.loading = false;
         this.fileUploaded = false;
       });
-    } else {
-      this.loading = false;
-      this.fileUploaded = false;
-      console.error('Missing info to send file...: ' + 'fileType' + fileInfo.scoreFileType + 'instrumentId: ' + fileInfo.instrumentId + ' titleId: ' + fileInfo.titleId + ' scoreTypeId: ' + fileInfo.scoreTypeId);
-    }
+    // } else {
+    //   this.loading = false;
+    //   this.fileUploaded = false;
+    //   console.error('Missing info to send file...: ' + 'fileType' + fileInfo.scoreFileType + 'instrumentId: ' + fileInfo.instrumentId + ' titleId: ' + fileInfo.titleId + ' scoreTypeId: ' + fileInfo.scoreTypeId);
+    // }
   }
   remove(emit?) {
     this.removing = false;

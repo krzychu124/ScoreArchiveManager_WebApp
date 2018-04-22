@@ -99,58 +99,10 @@ export class FileAddComponent implements OnInit, AfterViewInit {
   getOtherFiles() {
     return this.uploadedFiles.filter(items => items.scoreFileType.toString() == ScoreFileType[ScoreFileType.OTHER]);
   }
+  getAllFiles() {
+    return this.uploadedFiles;
+  }
   reset(saved: boolean) {
     this.attachedFiles.reset(saved);
   }
- 
-  // processing($event: ProcessingState) {
-  //   let pendingFiles = [];
-  //   switch($event.fileType) {
-  //     case ScoreFileType.PDF:
-  //     this.pdfProcessing = $event.inProgress;
-  //     if($event.inProgress) {
-  //       pendingFiles.push('pdf');
-  //     }
-  //     break;
-  //     case ScoreFileType.MSCZ:
-  //     this.msczProcessing = $event.inProgress;
-  //     if($event.inProgress) {
-  //       pendingFiles.push('mscz');
-  //     }
-  //     break;
-  //     case ScoreFileType.IMAGE:
-  //     this.imageProcessing = $event.inProgress;
-  //     if($event.inProgress) {
-  //       pendingFiles.push('image');
-  //     }
-  //     break;
-  //     case ScoreFileType.OTHER:
-  //     this.otherProcessing = $event.inProgress;
-  //     if($event.inProgress) {
-  //       pendingFiles.push('other');
-  //     }
-  //     break;
-  //   }
-  //   this.processingFiles.emit(pendingFiles.length> 0);
-  // }
-  // sendAllPdf($event) {
-  //   this.pdfFiles.fileItems.forEach(file => file.upload());
-  //   $event.preventDefault();
-  // }
-  // sendAllMscz($event) {
-  //   this.msczFiles.fileItems.forEach(file => file.upload());
-  //   $event.preventDefault();
-  // }
-  // sendAllImages($event) {
-  //   this.imageFiles.fileItems.forEach(file => file.upload());
-  //   $event.preventDefault();
-  // }
-  // sendAllOther($event) {
-  //   this.otherFiles.fileItems.forEach(file => file.upload());
-  //   $event.preventDefault();
-  // }
-
-  // sendAllEnabled() {
-  //   return true;
-  // }
 }
