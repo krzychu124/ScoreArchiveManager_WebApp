@@ -12,3 +12,12 @@
 .home-button {
     height: 100%;
 }
+.bar {
+    margin-bottom: 5px;
+}
+.register-error {
+    margin-bottom: 5px;
+    color: white;
+    background-color: red;
+    padding: 10px;
+}

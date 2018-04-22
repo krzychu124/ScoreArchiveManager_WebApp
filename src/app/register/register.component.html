@@ -1,6 +1,8 @@
 <div class="container">
   <div fxLayout="row" class="register-row" fxLayoutAlign="center center" fxLayoutGap="10px">
-    <form>
+    <form [formGroup]="registerForm">
+      <mat-progress-bar class="mat-elevation-z1 bar" mode="query" *ngIf="processing"></mat-progress-bar>
+      <mat-card fxLayoutAlign="center center" *ngIf="error && !processing" class="register-error"><span><strong>{{error}}</strong></span></mat-card>
       <div fxLayout="row" fxLayoutAlign="start stretch" fxLayoutGap="20px">
         <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="20px">
           <button mat-raised-button [routerLink]="['/']" class="home-button" color="accent">
@@ -25,7 +27,7 @@
           <mat-input-container floatPlaceholder="auto">
             <input matInput type="password" [formControl]="password" placeholder="Hasło">
           </mat-input-container>
-          <button mat-raised-button (click)="register()" color="primary" class="register-button">Zarejestruj</button>
+          <button mat-raised-button (click)="register()" color="primary" class="register-button" [disabled]="registerForm.invalid || processing">Zarejestruj</button>
         </div>
       </div>
     </form>

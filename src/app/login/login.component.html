@@ -1,15 +1,38 @@
-<div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
-<button mat-raised-button [routerLink]="['/']" color="accent">Back</button>
-<button mat-raised-button (click)="logout()" color="accent">Logout</button>
-  <form>
-    <mat-input-container floatPlaceholder="auto">
-      <input matInput type="text" [formControl]="userName" placeholder="Login">
-    </mat-input-container>
-    <mat-input-container floatPlaceholder="auto">
-      <input matInput type="password" [formControl]="password" placeholder="Password">
-    </mat-input-container>
-    <button mat-raised-button (click)="login()" color="primary">Login</button>
-  </form>
-  <br>
-  <span *ngIf="loginStatus">{{loginStatus}}</span>
+<div class="container">
+
+  <div class="login-card" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+
+    <form [formGroup]="loginForm">
+      <mat-card fxLayout="row" fxLayoutAlign="start stretch">
+
+        <div fxLayout="column" fxLayoutGap="10px">
+          <div fxLayout="row" fxLayoutAlign="center stretch" fxLayoutGap="20px">
+            <div fxLayout="column" fxLayoutAlign="center stretch">
+              <button mat-raised-button [routerLink]="['/']" color="accent" fxFlexFill> <mat-icon class="mat-18">home</mat-icon></button>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="space-between start">
+              <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-input-container floatPlaceholder="auto">
+                  <input matInput type="text" [formControl]="userName" placeholder="Login" required>
+                </mat-input-container>
+              </div>
+              <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-input-container floatPlaceholder="auto">
+                  <input matInput type="password" [formControl]="password" placeholder="Hasło" required>
+                </mat-input-container>
+              </div>
+              <button mat-raised-button (click)="login()" color="primary" class="login-button" [disabled]="loginForm.pristine || loginForm.invalid || processing">Login</button>
+            </div>
+            <!-- <br>
+          <span *ngIf="loginStatus">{{loginStatus}}</span> -->
+          </div>
+          <mat-progress-bar mode="query" *ngIf="processing"></mat-progress-bar>
+          <div class="mat-elevation-z1 status-text-container" fxLayoutAlign="center center" *ngIf="loginStatus && !processing" fxLayout="row" fxLayoutGap="10px">
+            <span class="status-text">{{loginStatus}}</span>
+          </div>
+        </div>
+      </mat-card>
+    </form>
+  </div>
+
 </div>
