@@ -1,0 +1,109 @@
+<div class="parent-container">
+  <div class="mat-elevation-z0">
+    <div class="title">
+      <mat-card>
+        <mat-card-title-group>
+          <mat-card-title>Zlecenia i zadania</mat-card-title>
+          <button mat-mini-fab (click)="createJob()" >
+            <mat-icon class="mat-36 hand">add</mat-icon>
+          </button>
+        </mat-card-title-group>
+      </mat-card>
+    </div>
+
+    <div class="content">
+      <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="10px">
+
+        <div fxLayout="column" fxFlex="37" fxLayoutAlign="start stretch" fxLayoutGap="20px">
+          <mat-card>
+            <mat-card-title-group>
+              <mat-card-title>
+                <strong>Nowe</strong>
+              </mat-card-title>
+              <mat-card-subtitle>Zadania do wykonania</mat-card-subtitle>
+            </mat-card-title-group>
+            <mat-card-content>
+              <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="20px">
+                <mat-card *ngFor="let job of newJobs">
+                  <mat-card-subtitle>
+                    <mat-card-title>{{job.name}}</mat-card-title>
+                  </mat-card-subtitle>
+                  <mat-card-content>
+                    {{job.description}}
+                  </mat-card-content>
+                  <mat-card-actions align="end">
+                    <button mat-raised-button color="primary" (click)="details(job.id)">Szczegóły</button>
+                  </mat-card-actions>
+                </mat-card>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <div fxLayout="column" fxFlex="37" fxLayoutAlign="start stretch" fxLayoutGap="20px">
+          <mat-card>
+            <mat-card-title-group>
+              <mat-card-title>
+                <strong>W toku</strong>
+              </mat-card-title>
+              <mat-card-subtitle>Zadania aktualnie wykonywane</mat-card-subtitle>
+            </mat-card-title-group>
+            <mat-card-content>
+              <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="20px">
+                <mat-card *ngFor="let job of inProgressJobs">
+                  <mat-card-subtitle>
+                    <mat-card-title>{{job.name}}</mat-card-title>
+                  </mat-card-subtitle>
+                  <mat-card-content>
+                    {{job.description}}
+                  </mat-card-content>
+                  <mat-card-actions align="end">
+                    <button mat-raised-button color="primary" (click)="details(job.id)">Szczegóły</button>
+                  </mat-card-actions>
+                </mat-card>
+                <mat-card *ngIf="inProgressJobs.length ==0">
+                    <mat-card-content>
+                      <mat-card-title class="no-jobs">Brak zadań</mat-card-title>
+                    </mat-card-content>
+                </mat-card>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div fxLayout="column" fxFlex="25" fxLayoutAlign="strat stretch" fxLayoutGap="20px">
+          <mat-card>
+            <mat-card-title-group>
+              <mat-card-title>
+                <strong>Ukończone</strong>
+              </mat-card-title>
+              <mat-card-subtitle>Zadania zakończone</mat-card-subtitle>
+            </mat-card-title-group>
+            <mat-card-content>
+              <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="20px">
+                <div *ngFor="let job of finishedJobs">
+                  <mat-card>
+                    <mat-card-subtitle>
+                      <mat-card-title>{{job.name}}</mat-card-title>
+                    </mat-card-subtitle>
+                    <mat-card-content>
+                      {{job.description}}
+                    </mat-card-content>
+                    <mat-card-actions align="end">
+                      <button mat-raised-button color="primary" (click)="details(job.id)">Szczegóły</button>
+                    </mat-card-actions>
+                  </mat-card>
+                </div>
+                <mat-card *ngIf="finishedJobs.length ==0">
+                    <mat-card-content>
+                      <mat-card-title class="no-jobs">Brak zadań</mat-card-title>
+                    </mat-card-content>
+                </mat-card>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

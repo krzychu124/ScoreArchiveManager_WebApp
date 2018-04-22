@@ -1,0 +1,56 @@
+<form [formGroup]="jobEditForm" class="fob-form" novalidate>
+  <div fxLayout="row" fxLayoutAlign="end stretch">
+    <button mat-icon-button (click)="close()">
+      <mat-icon class="mat-18">close</mat-icon>
+    </button>
+  </div>
+  <code *ngIf="error">{{ error }}</code>
+  <br>
+  <div fxLayout="row" fxLayoutAlign="stretch stretch" fxLayoutGap="20px">
+    <div fxLayout="column" fxFill fxFlex="100" fxLayoutAlign="start stretch" fxLayoutGap="15px">
+      <mat-form-field class="form-group">
+        <input matInput placeholder="Nazwa zadania" fullWidth formControlName="name" required>
+        <mat-error *ngIf="name.invalid">Podaj nazwę zadania</mat-error>
+      </mat-form-field>
+      <mat-form-field class="form-group">
+        <mat-select formControlName="jobType" placeholder="Typ zadania" required>
+          <mat-option *ngFor="let choice of jobTypes" [value]="choice">
+            {{choice.name_pl}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="jobType.invalid">Wybierz typ zadania</mat-error>
+      </mat-form-field>
+      <mat-input-container floatPlaceholder="auto">
+        <textarea matInput required formControlName="description" placeholder="Krótki opis" class="txt-area"></textarea>
+        <mat-error *ngIf="name.invalid">Dodaj krótki opis zadania</mat-error>
+      </mat-input-container>
+    </div>
+    <div fxLayout="column" fxFill fxFlex="100" fxLayoutAlign="start stretch" fxLayoutGap="15px">
+      <mat-form-field class="form-group">
+        <input matInput placeholder="Uthworzono: " fullWidth formControlName="created">
+      </mat-form-field>
+      <mat-form-field class="form-group">
+        <input matInput placeholder="Utworzone przez" fullWidth formControlName="creator">
+      </mat-form-field>
+      <mat-form-field class="form-group">
+        <input matInput placeholder="Ostatnia modyfikacja: " fullWidth formControlName="modified">
+      </mat-form-field>
+      <mat-form-field class="form-group">
+        <input matInput placeholder="Zadanie usunięte: " fullWidth formControlName="deleted">
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="column" *ngIf="jobInfo && jobInfo.attachedFiles && jobInfo.attachedFiles.length > 0" fxFill fxFlex="35" fxLayoutAlign="start stretch"
+      fxLayoutGap="15px">
+      <mat-list dense>
+        <mat-list-item *ngFor="let item of jobInfo.attachedFiles" class="attachment-item" (click)="preview(item)">
+          <span class="hand"> <strong>Id:</strong> {{item.id}} <strong>Typ: </strong>{{item.scoreFileType}} <strong>Nazwa: </strong>{{item.fileName}}<hr></span>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="start stretch">
+    <button mat-raised-button [disabled]="jobEditForm.invalid" fxFill fxFlexAlign="end" color="primary" (click)="updateJob()">Zapisz zmiany</button>
+  </div>
+</form>

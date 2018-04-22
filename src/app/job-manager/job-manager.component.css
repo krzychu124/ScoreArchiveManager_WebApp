@@ -1,0 +1,17 @@
+.parent-container {
+    padding: 20px;
+}
+.hand {
+    cursor: pointer;
+}
+.title {
+    padding: 20px;
+}
+
+.content {
+    padding: 20px;
+}
+.no-jobs {
+    color: royalblue;
+    text-align: center;
+}

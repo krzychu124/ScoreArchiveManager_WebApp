@@ -11,6 +11,10 @@ import { GenericFile } from '@app/shared/GenericFile';
 import { Instrument } from '@app/shared/instrument';
 import { FileMetadataEndpointService } from '@app/shared/service/fileService/file-metadata-endpoint.service';
 import { User } from '@app/shared/user';
+import { JobStatus } from '@app/shared/jobStatus';
+import { JobType } from '@app/shared/jobType';
+import { JobBasic } from '@app/shared/job-basic';
+import { JobFull } from '@app/shared/job-full';
 
 @Injectable()
 export class RestService {
@@ -104,7 +108,31 @@ export class RestService {
         return this.http.get<FileWithMetadata>(e.apiServer + e.filesEndpoint + '/base64', { params: param });
     }
 
-    public registerUser(newUser: User): Observable<boolean> {
-        return this.http.post<boolean>(this.env.server + this.env.userEndpoint, newUser);
+    public registerUser(newUser: User): Observable<Object> {
+        return this.http.post<Object>(this.env.server + this.env.userEndpoint + '/register', newUser);
+    }
+
+    public getJobStatuses(): Observable<JobStatus[]>{
+        return this.http.get<JobStatus[]>(this.env.apiServer + this.env.jobEndpoint + '/statuses');
+    }
+
+    public getJobTypes(): Observable<JobType[]> {
+        return this.http.get<JobType[]>(this.env.apiServer + this.env.jobEndpoint + '/types');
+    }
+
+    public createJob(job: any): Observable<JobBasic> {
+        return this.http.post<JobBasic>(this.env.apiServer + this.env.jobEndpoint, job);
+    }
+    public getNewJobs(): Observable<JobBasic[]> {
+        return this.http.get<JobBasic[]>(this.env.apiServer + this.env.jobEndpoint + '/byStatus/' + 1);
+    }
+    public getInProgressJobs(): Observable<JobBasic[]> {
+        return this.http.get<JobBasic[]>(this.env.apiServer + this.env.jobEndpoint + '/byStatus/' + 3);
+    }
+    public getFinishedJobs(): Observable<JobBasic[]> {
+        return this.http.get<JobBasic[]>(this.env.apiServer + this.env.jobEndpoint + '/byStatus/' + 5);
+    }
+    public getFullJobData(id: number): Observable<JobFull> {
+        return this.http.get<JobFull>(this.env.apiServer + this.env.jobEndpoint + '/allInfo/' +id);
     }
 }

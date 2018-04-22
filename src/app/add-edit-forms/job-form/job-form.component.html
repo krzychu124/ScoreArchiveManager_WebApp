@@ -1,0 +1,34 @@
+<form [formGroup]="jobForm" class="fob-form" novalidate>
+  <code *ngIf="error">{{ error }}</code>
+  <br>
+  <div fxLayout="row" fxLayoutAlign="stretch stretch" fxLayoutGap="20px">
+
+    <div fxLayout="column" fxFill fxFlex="100" fxLayoutAlign="start stretch" fxLayoutGap="15px">
+      <mat-form-field class="form-group">
+        <input matInput placeholder="Nazwa zadania" fullWidth formControlName="name" required>
+        <mat-error *ngIf="name.invalid">Podaj nazwę zadania</mat-error>
+      </mat-form-field>
+      <mat-form-field class="form-group">
+        <mat-select formControlName="jobType" placeholder="Typ zadania" required>
+          <mat-option *ngFor="let choice of jobTypes" [value]="choice">
+            {{choice.name_pl}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="jobType.invalid">Wybierz typ zadania</mat-error>
+      </mat-form-field>
+      <mat-input-container floatPlaceholder="auto">
+        <textarea matInput required formControlName="description" placeholder="Krótki opis" class="txt-area"></textarea>
+        <mat-error *ngIf="name.invalid">Dodaj krótki opis zadania</mat-error>
+      </mat-input-container>
+      <button *ngIf="!attachmentsVisible" mat-mini-fab fxFlexAlign="end" (click)="addAttachments()" color="warn">
+        <mat-icon class="mat-18">attachment</mat-icon>
+      </button>
+      <button mat-raised-button [disabled]="jobForm.invalid" fxFill fxFlexAlign="end" color="primary" (click)="createJob()">Dodaj</button>
+
+    </div>
+
+    <div *ngIf="attachmentsVisible" fxLayout="column" fxFill fxLayoutAlign="start stretch" fxFlex="70" fxLayoutGap="15px">
+      <app-file-add #fileAdd></app-file-add>
+    </div>
+  </div>
+</form>

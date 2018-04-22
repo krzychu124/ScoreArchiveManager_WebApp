@@ -13,6 +13,7 @@ import { StorageManagerComponent } from '@app/storage-manager/storage-manager.co
 import { RegisterComponent } from '@app/register/register.component';
 import { LoginComponent } from '@app/login/login.component';
 import { CanActivateDashboardService } from '@app/shared/service/auth/can-activate-dashboard.service';
+import { JobManagerComponent } from '@app/job-manager/job-manager.component';
 
 const routes: Routes = [
   { path: '', component: WelcomeComponent, pathMatch: 'full' },
@@ -26,7 +27,8 @@ const routes: Routes = [
       { path: 'score-book-titles', component: ScoreBookTitlesComponent },
       { path: 'score-titles', component: ScoreTitlesComponent },
       { path: 'instruments', component: InstrumentsComponent },
-      { path: 'storage', component: StorageManagerComponent }
+      { path: 'storage', component: StorageManagerComponent },
+      { path: 'jobs', component: JobManagerComponent}
     ], 
     canActivate: [CanActivateDashboardService],
     
@@ -41,7 +43,8 @@ const routes: Routes = [
       { path: 'score-book-titles', component: ScoreBookTitlesComponent },
       { path: 'score-titles', component: ScoreTitlesComponent },
       { path: 'instruments', component: InstrumentsComponent },
-      { path: 'storage', component: StorageManagerComponent }
+      { path: 'storage', component: StorageManagerComponent },
+      { path: 'jobs', component: JobManagerComponent}
     ]
   }
 ];

@@ -30,7 +30,6 @@ import { DataService } from '@app/shared/service/data.service';
 import { FileLoaderComponent } from '@app/file-add/file-loader/file-loader.component';
 import { FileLoaderItemComponent } from '@app/file-add/file-loader-item/file-loader-item.component';
 import { StorageManagerComponent } from './storage-manager/storage-manager.component';
-import { StorageFileComponent } from '@app/storage-manager/storage-file/storage-file.component';
 import { InputFileComponent } from './input-file/input-file.component';
 import { RestService } from '@app/shared/service/rest.service';
 import { DisplayFileComponent } from '@app/storage-manager/display-file/display-file.component';
@@ -42,6 +41,9 @@ import { AuthorizationService } from '@app/shared/service/authorization.service'
 import { HttpReqInterceptor } from '@app/shared/service/interceptor/http-req-interceptor';
 import { LoginComponent } from './login/login.component';
 import { CanActivateDashboardService } from '@app/shared/service/auth/can-activate-dashboard.service';
+import { JobFormComponent } from '@app/add-edit-forms/job-form/job-form.component';
+import { JobManagerComponent } from '@app/job-manager/job-manager.component';
+import { JobViewEditDialogComponent } from '@app/dialogs/job-view-edit-dialog/job-view-edit-dialog.component';
 
 @NgModule({
   declarations: [
@@ -68,11 +70,13 @@ import { CanActivateDashboardService } from '@app/shared/service/auth/can-activa
     FileLoaderItemComponent,
     ScoreBooksComponent,
     StorageManagerComponent,
-    StorageFileComponent,
     DisplayFileComponent,
     PdfPreviewComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    JobFormComponent,
+    JobManagerComponent,
+    JobViewEditDialogComponent
 ],
   imports: [
     BrowserModule,
@@ -111,7 +115,7 @@ import { CanActivateDashboardService } from '@app/shared/service/auth/can-activa
     RestService,
   ],
   entryComponents: [
-    PdfPreviewComponent
+    PdfPreviewComponent, JobFormComponent, JobViewEditDialogComponent
   ],
   bootstrap: [AppComponent]
 })

@@ -13,10 +13,10 @@ export class DataService {
     private scoreTitlesSource = new BehaviorSubject<Array<ScoreTitle>>(new Array<ScoreTitle>());
     private scoreTypesSource = new BehaviorSubject<Array<ScoreType>>(new Array<ScoreType>());
     private instrumentsSource = new BehaviorSubject<Array<Instrument>>(new Array<Instrument>());
-    public scoreBookTitles: Observable<Array<ScoreBookTitle>> = this.scoreBookTitlesSource.asObservable();
-    public scoreTitles: Observable<Array<ScoreTitle>> = this.scoreTitlesSource.asObservable();
-    public scoreTypes: Observable<Array<ScoreType>> = this.scoreTypesSource.asObservable();
-    public instruments: Observable<Array<Instrument>> = this.instrumentsSource.asObservable();
+    public readonly scoreBookTitles: Observable<Array<ScoreBookTitle>> = this.scoreBookTitlesSource.asObservable();
+    public readonly scoreTitles: Observable<Array<ScoreTitle>> = this.scoreTitlesSource.asObservable();
+    public readonly scoreTypes: Observable<Array<ScoreType>> = this.scoreTypesSource.asObservable();
+    public readonly instruments: Observable<Array<Instrument>> = this.instrumentsSource.asObservable();
 
     constructor() {
     }
