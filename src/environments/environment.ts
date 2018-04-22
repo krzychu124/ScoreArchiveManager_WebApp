@@ -19,5 +19,6 @@ export const environment = {
   scoreTitle: '/scoreTitle',
   storage: '/storage',
   fileMetadata: '/fileMetadata',
-  userEndpoint: '/user'
+  userEndpoint: '/user',
+  jobEndpoint: '/jobs'
 };
