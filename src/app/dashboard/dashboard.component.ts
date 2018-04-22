@@ -6,6 +6,8 @@ import { FileInfo } from '../shared/fileInfo';
 import { ScoreFileType } from '../shared/scoreFileType.enum';
 import { saveAs as importedSaveAs } from "file-saver";
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { AuthorizationService } from '@app/shared/service/authorization.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,71 +18,16 @@ export class DashboardComponent {
   //Work in progress
   title = 'Archiwum utworów';
   description = 'Playground';
-  events = [];
   options: FormGroup;
   isExpanded = false;
-  fileList: FileList;
-  titles = Array<ScoreTitle>();
-  scoreTypes = ["OTHER", "FUNERAL", "MARCH"];
-  newTitle = { id: null, title: null, number: null, scoreType: null } as ScoreTitle;
-  storageFileList: Array<string> = [];
-  constructor(fb: FormBuilder, private http: HttpClient) {
+  constructor(fb: FormBuilder, private auth: AuthorizationService, private router: Router) {
     this.options = fb.group({
       'fixed': true,
       'top': 0,
       'bottom': 0,
     });
   }
-  onClick($event) {
-    this.http.get(environment.apiServer + environment.scoreTitle).subscribe(resp => {
-      this.titles = resp as Array<ScoreTitle>;
-    }, err => {
-      console.log(err);
-    });
-  }
-  add() {
-    const scoreTitle = this.newTitle;
-    this.http.post(environment.apiServer + environment.scoreTitle, scoreTitle).subscribe(resp => {
-      this.onClick(null);
-    }, err => {
-      console.log(err);
-    });
-  }
-  save() {
-    let formData = new FormData();
-    formData.append('file', this.fileList[0]);
-    const fileInfo = { name: this.fileList[0].name, scoreType: 'OTHER' } as FileInfo;
-    formData.append('fileInfo', new Blob([JSON.stringify(fileInfo)], { type: 'application/json' }));
-    this.http.post(environment.apiServer + environment.pdfEndpoint, formData).subscribe(resp => {
-    }, err => {
-      console.log(err);
-    });
-  }
-  get() {
-    let params = new HttpParams();
-    params = params.append('name', 'textFile');
-    this.http.get(environment.apiServer + environment.pdfEndpoint, { params: params }).subscribe(resp => {
-      const blob = new Blob([resp]);
-      let f = new FileReader();
-      importedSaveAs(new Blob([resp]), 'files.mss');
-    }, err => {
-      console.log(err);
-    });
-  }
-  selectFile(event) {
-    this.fileList = event.target.files;
-  }
-
-  getFileList() {
-    const fileType = ScoreFileType.PDF;
-    let params = new HttpParams();
-    params = params.append('fileType', ScoreFileType[fileType]);
-    this.http.get(environment.apiServer + environment.storage + '/fileList', { params: params }).subscribe(resp => {
-      this.storageFileList = resp as Array<string>;
-    }, err => {
-      console.log(err);
-    });
-  }
+ 
   mouseOver($event) {
     if (!this.isExpanded) {
       this.isExpanded = true;
@@ -90,5 +37,11 @@ export class DashboardComponent {
     if (this.isExpanded) {
       this.isExpanded = false;
     }
+  }
+  showMenu() {
+    
+  }
+  logout() {
+    this.auth.logout().subscribe(() => this.router.navigate(['/']));
   }
 }

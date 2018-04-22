@@ -1,5 +1,28 @@
 <ng-container class="dashboard">
-  <mat-toolbar class="header mat-elevation-z2">{{title}}</mat-toolbar>
+  <mat-toolbar class="header mat-elevation-z2" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10ppx">
+      <span>{{title}}</span>
+      <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="20px">
+      <mat-icon class="mat-24">message</mat-icon>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>account_box</mat-icon>
+        </button>
+        <span>Zalogowany</span>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item [routerLink]="['/dashboard/jobs']">
+              <mat-icon fontSet="fa" fontIcon="fa-tasks"></mat-icon>
+            <span>Moje zadania</span>
+          </button>
+          <button mat-menu-item disabled>
+            <mat-icon>settings</mat-icon>
+            <span>Ustawienia</span>
+          </button>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon fontSet="fa" fontIcon="fa-sign-out"></mat-icon>
+            <span>Wyloguj</span>
+          </button>
+        </mat-menu>
+    </div>
+  </mat-toolbar>
   <mat-sidenav-container class="container">
     <mat-sidenav #sidenav class="sidenav mat-elevation-z2" mode="side" opened="true" (mouseenter)="mouseOver(sidenav)" (mouseleave)="mouseOut(sidenav)">
 
@@ -7,6 +30,10 @@
         <mat-list-item [routerLink]="['/']" class="sh">
           <mat-icon mat-list-icon>home</mat-icon>
           <p matLine *ngIf="isExpanded">Home</p>
+        </mat-list-item>
+        <mat-list-item [routerLink]="['./jobs']" class="sh">
+          <mat-icon mat-list-icon>music_note</mat-icon>
+          <p matLine *ngIf="isExpanded">Zadania i zlecenia</p>
         </mat-list-item>
         <mat-list-item [routerLink]="['./score-books']" class="sh">
           <mat-icon mat-list-icon>book</mat-icon>

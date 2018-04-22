@@ -48,3 +48,6 @@
 .sh:focus{
   box-shadow: 0 2px 2px -1px rgba(0,0,0,.40) ;  
 }
+button > mat-icon {
+  font-size: 24px;
+}
