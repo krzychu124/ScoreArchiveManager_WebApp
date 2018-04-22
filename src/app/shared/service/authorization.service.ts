@@ -41,6 +41,20 @@ export class AuthorizationService {
         });
     }
 
+    refreshTokenData(): Observable<Object> {
+        const token = this.getRefreshToken();
+        let header = new HttpHeaders();
+        header = header.set('Authorization', 'Basic ' + btoa(this.clienName + ':' + this.clientPass));
+        header = header.append('Content-Type', 'application/x-www-form-urlencoded');
+        let form = new URLSearchParams();
+        form.set('refresh_token', token);
+        form.set('grant_type', AuthorizationService.refresh_token);
+        return this.http.post<TokenRequestData>(environment.server + this.requestToken, form.toString(), { headers: header }).mergeMap(resp => {
+            this.saveToken(resp);
+            return Observable.of(resp);
+        });
+    }
+
     public logout() {
         return this.http.get<any>(environment.server + this.logoutEndpoint).mergeMap(resp => {
             this.removeToken();
