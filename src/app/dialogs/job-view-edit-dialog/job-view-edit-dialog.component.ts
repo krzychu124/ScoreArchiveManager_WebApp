@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { RestService } from '@app/shared/service/rest.service';
 import { JobFull } from '@app/shared/job-full';
@@ -8,13 +8,15 @@ import { DatePipe } from '@angular/common';
 import { GenericFile } from '@app/shared/GenericFile';
 import { PdfPreviewComponent } from '@app/storage-manager/pdf-preview/pdf-preview.component';
 import { ScoreFileType } from '@app/shared/scoreFileType.enum';
+import { DataService } from '@app/shared/service/data.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-job-view-edit-dialog',
   templateUrl: './job-view-edit-dialog.component.html',
   styleUrls: ['./job-view-edit-dialog.component.css']
 })
-export class JobViewEditDialogComponent implements OnInit {
+export class JobViewEditDialogComponent implements OnInit, OnDestroy {
   jobEditForm: FormGroup;
   name: FormControl;
   jobType: FormControl;
@@ -27,14 +29,18 @@ export class JobViewEditDialogComponent implements OnInit {
   jobInfo: JobFull;
   error: any;
   jobTypes: JobType[] = [];
-  constructor(private rest: RestService, private dialogRef: MatDialogRef<JobViewEditDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private dialog:MatDialog) { }
+  private jobTypesSub: Subscription;
+  constructor(private rest: RestService, private dataService: DataService, private dialogRef: MatDialogRef<JobViewEditDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog) { }
 
   ngOnInit() {
     if (this.data) {
-      this.fetchJobTypes();
+      this.jobTypesSub = this.dataService.jobTypes.subscribe(jobTypes => this.jobTypes = jobTypes);
       this.initForm();
       this.loadData(this.data);
     }
+  }
+  ngOnDestroy() {
+    this.jobTypesSub.unsubscribe();
   }
 
   loadData(data: any) {
@@ -43,7 +49,7 @@ export class JobViewEditDialogComponent implements OnInit {
       this.fillForm(resp);
     }, err => {
       console.error(err);
-      this.dialogRef.close();
+      this.dialogRef.close(false);
     });
   }
   initForm() {
@@ -67,8 +73,8 @@ export class JobViewEditDialogComponent implements OnInit {
     });
   }
   fillForm(data: JobFull) {
-    const datePipe= new DatePipe('en-US');
-    const job = this.jobTypes.find(j=>j.id === data.jobType.id);
+    const datePipe = new DatePipe('en-US');
+    const job = this.jobTypes.find(j => j.id === data.jobType.id);
     this.jobEditForm.setValue({
       name: data.name,
       description: data.description,
@@ -77,32 +83,18 @@ export class JobViewEditDialogComponent implements OnInit {
       created: datePipe.transform(data.created, 'dd/MM/yyyy hh:mm:ss'),
       lastModifiedBy: data.lastModifiedBy,
       modified: datePipe.transform(data.modified, 'dd/MM/yyyy hh:mm:ss'),
-      deleted: data.deleted? 'Tak':'Nie'
-    });
-  }
-  fetchJobTypes() {
-    this.rest.getJobTypes().subscribe(resp => {
-      this.jobTypes = resp.sort((a, b) => {
-        if (a.name_pl > b.name_pl)
-          return 1;
-        else if (a.name_pl < b.name_pl)
-          return -1;
-        else
-          return 0;
-      });
-    }, err => {
-      console.error(err);
+      deleted: data.deleted ? 'Tak' : 'Nie'
     });
   }
   updateJob() {
-
+    this.dialogRef.close(true);
   }
   close() {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
-  preview(item:GenericFile) {
-    if(item.scoreFileType.toString() == "PDF"){
-    const dialogRef = this.dialog.open(PdfPreviewComponent, { data: item.fileName});
+  preview(item: GenericFile) {
+    if (item.scoreFileType.toString() == "PDF") {
+      const dialogRef = this.dialog.open(PdfPreviewComponent, { data: item.fileName });
     }
   }
 }

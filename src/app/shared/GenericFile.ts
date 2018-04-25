@@ -6,6 +6,7 @@ import { ScoreTitle } from "@app/shared/scoreTitle";
 export class GenericFile {
     id: number;
     fileName: string;
+    originalFileName: string;
     scoreTitle: ScoreTitle;
     scoreType: ScoreType;
     instrument: Instrument;

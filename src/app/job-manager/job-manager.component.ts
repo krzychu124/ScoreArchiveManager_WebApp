@@ -24,7 +24,7 @@ export class JobManagerComponent implements OnInit {
     this.refreshFinished();
   }
   createJob() {
-    const jobDialog = this.dialog.open(JobFormComponent,{minWidth: '400px'});
+    const jobDialog = this.dialog.open(JobFormComponent, { minWidth: '400px' });
     jobDialog.afterClosed().subscribe(() => {
       this.refreshNewJobsList();
     });
@@ -50,11 +50,13 @@ export class JobManagerComponent implements OnInit {
       });
     }, err => console.error(err));
   }
-  details(id:number) {
-    const dialog = this.dialog.open(JobViewEditDialogComponent,{data: id, minWidth: '400px'});
-    dialog.afterClosed().subscribe(()=> {
-      this.refreshInProgress();
-      this.refreshFinished();
+  details(id: number) {
+    const dialog = this.dialog.open(JobViewEditDialogComponent, { data: id, minWidth: '400px' });
+    dialog.afterClosed().subscribe(val => {
+      if (val) {
+        this.refreshInProgress();
+        this.refreshFinished();
+      }
     });
   }
 }

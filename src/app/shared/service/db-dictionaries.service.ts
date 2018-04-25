@@ -13,6 +13,8 @@ import { ScoreTitle } from '@app/shared/scoreTitle';
 import { AuthorizationService } from '@app/shared/service/authorization.service';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
+import { JobBasic } from '@app/shared/job-basic';
+import { JobType } from '@app/shared/jobType';
 
 @Injectable()
 export class DbDictionariesService {
@@ -20,10 +22,12 @@ export class DbDictionariesService {
     private stopBookTitlesInterval: boolean;
     private stopScoreTypesInterval: boolean;
     private stopInstumentInterval: boolean;
+    private stopJobTypesInterval: boolean;
     private scoreTypesEndpoint = environment.apiServer + environment.score + '/types';
     private scoreTitlesEndpoint = environment.apiServer + environment.scoreTitle;
     private instrumentsEndpoint = environment.apiServer + environment.instrument_endpoint;
     private scoreBookTitlesEndpoint = environment.apiServer + environment.scoreBookTitle_endpoint;
+    private jobTypesEndpoint = environment.apiServer + environment.jobEndpoint + '/types';
     public userAuthorized: boolean;
     private fsub: Subscription;
     private querying: boolean = false;
@@ -31,6 +35,7 @@ export class DbDictionariesService {
     private STQuerying: boolean = false;
     private IQuerying: boolean = false;
     private SBTQuerying: boolean = false;
+    private JTQuerying: boolean = false;
     constructor(private http: HttpClient, private dataService: DataService) {
     }
 
@@ -125,12 +130,35 @@ export class DbDictionariesService {
             }
         }
     }
+    public updateJobTypes(force?: boolean) {
+        if (this.userAuthorized && force) {
+            // force with retry interval on error
+            this.fetchJobTypes().subscribe(() => { }, err => this.updateJobTypes(false));
+        } else {
+            if (!this.JTQuerying) {
+                this.JTQuerying = true;
+                this.stopJobTypesInterval = false;
+                console.log('JTQuerying false');
+                Observable.interval(5000).takeWhile(() => !this.stopJobTypesInterval).subscribe(times => {
+                    console.log('UpdateJobTypes call, times: ' + times);
+                    if (this.userAuthorized) {
+                        this.fetchJobTypes().subscribe(ok => {
+                            this.stopJobTypesInterval = true;
+                            this.JTQuerying = false;
+                            console.log('JTQuerying false');
+                        });
+                    }
+                });
+            }
+        }
+    }
 
     public fetchAllData() {
         this.updateInstruments(true);
         this.updateScoreTitles(true);
         this.updateScoreBookTitles(true);
         this.updateScoreTypes(true);
+        this.updateJobTypes(true);
     }
 
     private fetchScoreTypes(): Observable<boolean> {
@@ -180,6 +208,18 @@ export class DbDictionariesService {
             result.next(true);
         }, err => {
             console.log('Instruments fetch failed: ' + err.message);
+            result.error(err);
+        });
+        return result;
+    }
+    private fetchJobTypes(): Observable<boolean> {
+        const result = new Subject<boolean>();
+        this.http.get(this.jobTypesEndpoint).subscribe(resp => {
+            this.dataService.updateJobTypes(resp as Array<JobType>);
+            console.log('JobTypes fetch: OK');
+            result.next(true);
+        }, err => {
+            console.log('JobTypes fetch failed: ' + err.message);
             result.error(err);
         });
         return result;

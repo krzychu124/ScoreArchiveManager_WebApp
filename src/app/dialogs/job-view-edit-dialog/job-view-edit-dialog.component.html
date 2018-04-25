@@ -41,10 +41,11 @@
     </div>
 
     <div fxLayout="column" *ngIf="jobInfo && jobInfo.attachedFiles && jobInfo.attachedFiles.length > 0" fxFill fxFlex="35" fxLayoutAlign="start stretch"
-      fxLayoutGap="15px">
+      fxLayoutGap="15px" >
+
       <mat-list dense>
         <mat-list-item *ngFor="let item of jobInfo.attachedFiles" class="attachment-item" (click)="preview(item)">
-          <span class="hand"> <strong>Id:</strong> {{item.id}} <strong>Typ: </strong>{{item.scoreFileType}} <strong>Nazwa: </strong>{{item.fileName}}<hr></span>
+          <span class="hand"> <strong>Id:</strong> {{item.id}} <strong>Typ: </strong>{{item.scoreFileType}} <strong>Nazwa: </strong>{{item.originalFileName}}<hr></span>
         </mat-list-item>
       </mat-list>
     </div>
