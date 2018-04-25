@@ -30,7 +30,6 @@ import { DataService } from '@app/shared/service/data.service';
 import { FileLoaderComponent } from '@app/file-add/file-loader/file-loader.component';
 import { FileLoaderItemComponent } from '@app/file-add/file-loader-item/file-loader-item.component';
 import { StorageManagerComponent } from './storage-manager/storage-manager.component';
-import { InputFileComponent } from './input-file/input-file.component';
 import { RestService } from '@app/shared/service/rest.service';
 import { DisplayFileComponent } from '@app/storage-manager/display-file/display-file.component';
 import { FileMetadataEndpointService } from '@app/shared/service/fileService/file-metadata-endpoint.service';

@@ -5,12 +5,14 @@ import { environment } from 'environments/environment';
 import { TokenRequestData } from '@app/shared/service/token-request-data';
 import { Observable } from 'rxjs/Observable';
 import { DbDictionariesService } from '@app/shared/service/db-dictionaries.service';
+import { UserPrivilege } from '@app/shared/service/userPrivilege';
 
 @Injectable()
 export class AuthorizationService {
     public static readonly access_token = 'access_token';
     public static readonly refresh_token = 'refresh_token';
     public static readonly expires_in = 'token_expires_in';
+    private readonly userRolesEndpoint = environment.server + environment.userEndpoint + '/myPrivileges';
     private clienName = 'app-client';
     private clientPass = 'app-secret';
     private grantType = 'password';
@@ -18,6 +20,7 @@ export class AuthorizationService {
     private refreshToken: string = '/oauth/refresh';
     private logoutEndpoint: string = '/oauth/revoke-token';
     private isUserAuthorized: boolean = false;
+    private privileges: Array<UserPrivilege> =[];
     constructor(public http: HttpClient, private dbDict: DbDictionariesService) {
         this.setAuthorizationStatus();
     }
@@ -37,6 +40,7 @@ export class AuthorizationService {
         form.set('grant_type', this.grantType);
         return this.http.post<TokenRequestData>(environment.server + this.requestToken, form.toString(), { headers: header }).mergeMap(resp => {
             this.saveToken(resp);
+            this.fetchPrivileges();
             return Observable.of(resp);
         });
     }
@@ -58,6 +62,7 @@ export class AuthorizationService {
     public logout() {
         return this.http.get<any>(environment.server + this.logoutEndpoint).mergeMap(resp => {
             this.removeToken();
+            this.privileges = [];
             return Observable.of('logout ok');
         });
     }
@@ -92,5 +97,14 @@ export class AuthorizationService {
         sessionStorage.removeItem(AuthorizationService.expires_in);
         this.isUserAuthorized = false;
         this.dbDict.userAuthorized = false;
+    }
+    public hasAuthority(authority:string): boolean {
+       return this.privileges.findIndex(auth=> auth.authority === authority) != -1;
+    }
+
+    private fetchPrivileges() {
+        this.http.get(this.userRolesEndpoint).subscribe(resp => {
+            this.privileges = resp as UserPrivilege[];
+        });
     }
 }

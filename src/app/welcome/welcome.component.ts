@@ -20,4 +20,13 @@ export class WelcomeComponent implements OnInit {
   logout() {
     this.auth.logout().subscribe();
   }
+  isAdmin() {
+    return this.auth.hasAuthority('ROLE_ADMIN');
+  }
+ hasOrchestraAccess() {
+  return this.auth.hasAuthority('orch_read');
+  }
+  hasBandAccess() {
+    return this.auth.hasAuthority('jbb_read');
+  }
 }
