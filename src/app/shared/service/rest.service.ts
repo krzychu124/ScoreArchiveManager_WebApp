@@ -102,6 +102,10 @@ export class RestService {
         return this.fileMetadataRest.getByInstrument(instrument);
     }
 
+    public getFileMetadataWithPreviewByInstrument(instrument: Instrument): Observable<GenericFile[]> {
+        return this.fileMetadataRest.getByInstrumentWithPreview(instrument);
+    }
+
     public getPDFBase64(fileName: string): Observable<FileWithMetadata> {
         const e = this.env;
         const param = new HttpParams().set('fileName', fileName);

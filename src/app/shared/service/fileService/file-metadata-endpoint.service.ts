@@ -17,4 +17,7 @@ export class FileMetadataEndpointService {
     getByInstrument(instrument: Instrument): Observable<GenericFile[]> {
         return this.http.get<GenericFile[]>(this.serv + this.fileEndP + '/instrument/' + instrument.id);
     }
+    getByInstrumentWithPreview(instrument: Instrument): Observable<GenericFile[]> {
+        return this.http.get<GenericFile[]>(this.serv + this.fileEndP + '/instrument/withPreview/' + instrument.id);
+    }
 }

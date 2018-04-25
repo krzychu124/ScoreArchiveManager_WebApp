@@ -44,7 +44,7 @@ export class OrchestraComponent implements OnInit {
   }
   instrumentSelected(option: MatAutocompleteSelectedEvent) {
     if (option.option.value) {
-      this.rest.getFileMetadataByInstrument(option.option.value).subscribe(resp => {
+      this.rest.getFileMetadataWithPreviewByInstrument(option.option.value).subscribe(resp => {
         this.metaDataPDFList = resp;
       })
     }

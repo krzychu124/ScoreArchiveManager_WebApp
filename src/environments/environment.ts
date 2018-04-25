@@ -5,8 +5,8 @@
 
 export const environment = {
   production: false,
-  apiServer: 'https://score-archive-manager-api.herokuapp.com/api',
-  server: 'https://score-archive-manager-api.herokuapp.com/',
+  apiServer: 'http://localhost:8080/api',
+  server: 'http://localhost:8080/',
   msczEndpoint: '/mscz',
   pdfEndpoint: '/pdf',
   imageEndpoint: '/image',
